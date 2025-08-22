@@ -1,11 +1,15 @@
----
-title: Yours Truly
-emoji: 🐢
-colorFrom: green
-colorTo: yellow
-sdk: docker
-pinned: false
-license: mit
----
+# My Hugging Face Space – Node.js API
 
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+This Space runs a Node.js backend API inside a Docker container.
+
+## 🚀 How to Run Locally
+```bash
+# Clone repo
+git clone <your-repo-url>
+cd <your-repo>
+
+# Install dependencies
+npm install
+
+# Run the server
+npm start
