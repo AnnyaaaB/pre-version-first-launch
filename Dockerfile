@@ -1,20 +1,19 @@
-# Base image
+# Use Node.js base image
 FROM node:18
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
+# Copy server package files and install deps
+COPY server/package*.json ./server/
+WORKDIR /app/server
 RUN npm install --production
 
-# Copy all files
-COPY . .
+# Copy the rest of the code
+COPY . /app
 
-# Expose port
+# Expose the port
 EXPOSE 7860
 
 # Start the server
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
