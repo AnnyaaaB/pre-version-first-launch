@@ -13,14 +13,20 @@ const app = express();
 
 // ✅ Explicitly allow your Vercel app + localhost during dev
 const allowedOrigins = [
-  "https://pre-version-first-launch.vercel.app", // your frontend
-  "http://localhost:3000", // dev
+  "https://pre-version-first-launch.vercel.app", // main prod domain
+  "http://localhost:3000", // local dev
+  /\.vercel\.app$/ // ✅ allow any Vercel preview domain
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) return callback(null, true); // allow server-to-server / curl
+      if (
+        allowedOrigins.some((o) =>
+          o instanceof RegExp ? o.test(origin) : o === origin
+        )
+      ) {
         callback(null, true);
       } else {
         console.warn("❌ Blocked CORS request from:", origin);
