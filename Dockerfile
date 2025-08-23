@@ -1,25 +1,19 @@
-# Use official Node.js image
-FROM node:18 AS build
+# Use Node.js base image
+FROM node:18
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package*.json ./
-RUN npm install
+# Copy server package files and install deps
+COPY server/package*.json ./server/
+WORKDIR /app/server
+RUN npm install --production
 
-# Copy source code
-COPY . .
+# Copy the rest of the code
+COPY . /app
 
-# Build React app
-RUN npm run build
-
-# Use a lightweight web server
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Expose port
+# Expose the port
 EXPOSE 7860
 
-# Run Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the server
+CMD ["node", "index.js"]
