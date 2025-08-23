@@ -3,26 +3,44 @@ import "./App.css";
 
 function App() {
   const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState([]); // stores full conversation
+  const [chatHistory, setChatHistory] = useState([]); // full conversation
   const [loading, setLoading] = useState(false);
 
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5050";
+  // Auto-detect Hugging Face Space URL
+  const getBackendURL = () => {
+    // If deployed on GitHub Pages, set via environment variable REACT_APP_API_URL
+    if (process.env.REACT_APP_API_URL) {
+      return process.env.REACT_APP_API_URL;
+    }
 
+    // Otherwise, try to infer dynamically (assumes backend is deployed under your username)
+    // For example, if your frontend is hosted on GH Pages:
+    // https://annyaaab.github.io/pre-version-first-launch/
+    // then backend can be: https://huggingface.co/spaces/AnnyaB/Yours-Truly
+    return "https://huggingface.co/spaces/AnnyaB/Yours-Truly";
+  };
+
+  const API_URL = getBackendURL();
+
+  // Send message to Autumn
   const sendMessage = async () => {
     if (!message.trim()) return;
 
-    // Add user message to history
     const newHistory = [...chatHistory, { role: "user", content: message }];
     setChatHistory(newHistory);
     setMessage("");
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/chat`, {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ history: newHistory }), // send full history
+        body: JSON.stringify({ history: newHistory }),
       });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
 
       const data = await response.json();
       const aiReply = {
@@ -30,7 +48,6 @@ function App() {
         content: data.reply || "No response from Autumn.",
       };
 
-      // Append AI reply to history
       setChatHistory((prev) => [...prev, aiReply]);
     } catch (err) {
       setChatHistory((prev) => [
@@ -42,9 +59,10 @@ function App() {
     }
   };
 
+  // Send feedback to backend
   const sendFeedback = async (feedback, index) => {
     try {
-      await fetch(`${API_URL}/feedback`, {
+      await fetch(`${API_URL}/api/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ feedback, message: chatHistory[index] }),
@@ -95,4 +113,3 @@ function App() {
 }
 
 export default App;
-

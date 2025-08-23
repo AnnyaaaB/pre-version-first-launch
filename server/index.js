@@ -10,7 +10,27 @@ dotenv.config();
 console.log("Loaded API Key:", process.env.GROQ_API_KEY ? "✅ Found" : "❌ Missing");
 
 const app = express();
-app.use(cors());
+
+// ✅ Explicitly allow your Vercel app + localhost during dev
+const allowedOrigins = [
+  "https://pre-version-first-launch.vercel.app", // your frontend
+  "http://localhost:3000", // dev
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn("❌ Blocked CORS request from:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -75,10 +95,7 @@ app.post("/feedback", (req, res) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve React build files (client/build → copied to server/public in Dockerfile)
 app.use(express.static(path.join(__dirname, "public")));
-
-
 
 // ----------------- START SERVER -----------------
 
@@ -86,4 +103,3 @@ const PORT = process.env.PORT || 7860;
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`🚀 Autumn server running on port ${PORT}`)
 );
-
