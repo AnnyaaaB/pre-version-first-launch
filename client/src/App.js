@@ -3,26 +3,22 @@ import "./App.css";
 
 function App() {
   const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState([]); // full conversation
+  const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Auto-detect Hugging Face Space URL
+  // ✅ Backend URL auto-detect
   const getBackendURL = () => {
-    // If deployed on GitHub Pages, set via environment variable REACT_APP_API_URL
     if (process.env.REACT_APP_API_URL) {
+      // Optional override (useful if you still want Hugging Face fallback)
       return process.env.REACT_APP_API_URL;
     }
-
-    // Otherwise, try to infer dynamically (assumes backend is deployed under your username)
-    // For example, if your frontend is hosted on GH Pages:
-    // https://annyaaab.github.io/pre-version-first-launch/
-    // then backend can be: https://huggingface.co/spaces/AnnyaB/Yours-Truly
-    return "https://huggingface.co/spaces/AnnyaB/Yours-Truly";
+    // Default: relative path → works on Vercel automatically
+    return "";
   };
 
   const API_URL = getBackendURL();
 
-  // Send message to Autumn
+  // ----------------- SEND MESSAGE -----------------
   const sendMessage = async () => {
     if (!message.trim()) return;
 
@@ -59,7 +55,7 @@ function App() {
     }
   };
 
-  // Send feedback to backend
+  // ----------------- SEND FEEDBACK -----------------
   const sendFeedback = async (feedback, index) => {
     try {
       await fetch(`${API_URL}/api/feedback`, {
@@ -100,7 +96,7 @@ function App() {
           rows="3"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Talk to Autumn..."
+          placeholder="Talk to your bestie..."
           disabled={loading}
         />
         <br />
