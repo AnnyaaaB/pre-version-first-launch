@@ -11,11 +11,10 @@ console.log("Loaded API Key:", process.env.GROQ_API_KEY ? "✅ Found" : "❌ Mis
 
 const app = express();
 
-// ✅ Explicitly allow your Vercel app + localhost during dev
+// important: restrict CORS in production
 const allowedOrigins = [
-  "https://pre-version-first-launch.vercel.app", // (if you still use it)
   "http://localhost:3000",                       // dev
-  "https://annyaaab.github.io",                  // ✅ your GitHub Pages frontend
+  "https://annyaaab.github.io",                  // github
 ];
 
 
