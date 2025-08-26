@@ -1,74 +1,105 @@
 import React, { useState } from "react";
 import "./App.css";
+import bgImage from "./assets/bg.png"; 
 
 function App() {
   const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]); // stores full conversation
   const [loading, setLoading] = useState(false);
 
-  // Dynamically use the current origin (frontend + backend same host)
-  const API_URL = `${window.location.origin}/api/chat`;
+  // ✅ Always use same origin as frontend (works on Render & localhost)
+  const API_BASE = window.location.origin;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const sendMessage = async () => {
     if (!message.trim()) return;
 
-    const userMessage = { role: "user", content: message };
-    setChatHistory([...chatHistory, userMessage]);
+    // Add user message to history
+    const newHistory = [...chatHistory, { role: "user", content: message }];
+    setChatHistory(newHistory);
     setMessage("");
     setLoading(true);
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_BASE}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ history: newHistory }), // send full history
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       const data = await response.json();
-      const botMessage = { role: "bot", content: data.reply };
+      const aiReply = {
+        role: "assistant",
+        content: data.reply || "No response from Autumn.",
+      };
 
-      setChatHistory((prev) => [...prev, botMessage]);
-    } catch (error) {
-      console.error("Error:", error);
+      // Append AI reply to history
+      setChatHistory((prev) => [...prev, aiReply]);
+    } catch (err) {
       setChatHistory((prev) => [
         ...prev,
-        { role: "bot", content: "⚠️ Error: Failed to fetch" },
+        { role: "assistant", content: "⚠️ Error: " + err.message },
       ]);
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="App">
-      <h1>Autumn AI</h1>
-      <div className="chat-box">
-        {chatHistory.map((chat, idx) => (
-          <div
-            key={idx}
-            className={`chat-message ${chat.role === "user" ? "user" : "bot"}`}
-          >
-            {chat.content}
-          </div>
-        ))}
-      </div>
+  const sendFeedback = async (feedback, index) => {
+    try {
+      await fetch(`${API_BASE}/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ feedback, message: chatHistory[index] }),
+      });
+      alert("Thanks for your feedback! 💜");
+    } catch (err) {
+      console.error("Feedback error:", err);
+    }
+  };
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
+  return (
+    <div
+      className="App"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        minHeight: "100vh",
+      }}
+    >
+      <div className="container">
+        <h1>Yours Truly ~ 🎀</h1>
+
+        <div className="chat-box">
+          {chatHistory.map((msg, i) => (
+            <div
+              key={i}
+              className={`chat-message ${msg.role === "user" ? "user" : "assistant"}`}
+            >
+              <p dangerouslySetInnerHTML={{ __html: msg.content }} />
+              {msg.role === "assistant" && (
+                <div className="feedback-buttons">
+                  <button onClick={() => sendFeedback("good", i)}>👍</button>
+                  <button onClick={() => sendFeedback("bad", i)}>👎</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <textarea
+          rows="3"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type a message..."
+          placeholder="Talk to Autumn..."
+          disabled={loading}
         />
-        <button type="submit" disabled={loading}>
-          {loading ? "Sending..." : "Send"}
+        <br />
+        <button onClick={sendMessage} disabled={loading}>
+          {loading ? "Thinking..." : "Send"}
         </button>
-      </form>
+      </div>
     </div>
   );
 }
