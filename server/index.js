@@ -11,12 +11,11 @@ console.log("Loaded API Key:", process.env.GROQ_API_KEY ? "✅ Found" : "❌ Mis
 
 const app = express();
 
-// important: restrict CORS in production
+// ----------------- CORS -----------------
 const allowedOrigins = [
-  "http://localhost:3000",                       // dev
-  "https://annyaaab.github.io",                  // github
+  "http://localhost:3000",          // dev
+  "https://annyaaab.github.io",     // github pages  // Hugging Face frontend (replace <your-space> with actual space name)
 ];
-
 
 app.use(
   cors({
@@ -42,7 +41,6 @@ app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
-// Chat endpoint with memory
 app.post("/chat", async (req, res) => {
   try {
     const { history } = req.body;
@@ -79,7 +77,6 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-// Feedback endpoint
 app.post("/feedback", (req, res) => {
   const { feedback, message } = req.body;
   if (!feedback || !message) {
@@ -96,7 +93,13 @@ app.post("/feedback", (req, res) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, "public")));
+// Serve React build (output from client/)
+app.use(express.static(path.join(__dirname, "../client/build")));
+
+// Catch-all: send React index.html for any unknown route
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+});
 
 // ----------------- START SERVER -----------------
 

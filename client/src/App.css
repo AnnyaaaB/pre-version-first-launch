@@ -1,40 +1,30 @@
-/* Fonts and base styling */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #0e0f11;
-    color: #e0e0e0;
-    overflow-x: hidden;
-    position: relative;
-}
 
-/* Spy-themed background overlay */
+
+/* Dark overlay if you want text to stand out */
 .background-overlay {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
-    background: url('https://i.imgur.com/CYwUHW0.png') no-repeat center center/cover;
-    opacity: 0.07;
+    background: rgba(0, 0, 0, 0.2); /* semi-transparent overlay */
     z-index: 0;
     pointer-events: none;
 }
 
+
 /* Container styling */
 .container {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-    margin: 5rem auto;
-    background: rgba(20, 20, 20, 0.75);
-    padding: 2rem 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 0 25px rgba(0, 255, 180, 0.1);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 255, 180, 0.1);
+  background: rgba(255, 255, 255, 0.7); /* soft white with transparency */
+  backdrop-filter: blur(8px);           /* frosted glass effect */
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 700px;
+  margin: 40px auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  color: #333; /* dark text so it's readable */
 }
+
 
 /* Header */
 h1 {
@@ -186,4 +176,16 @@ button {
 .admin-link:hover {
     background: rgba(0, 150, 140, 0.16);
     color: #004d40;
+}
+
+.chat-message {
+  background: rgba(255, 182, 193, 0.4); /* light pastel pink */
+  padding: 10px 15px;
+  margin: 8px 0;
+  border-radius: 12px;
+}
+
+.chat-message.user {
+  background: rgba(173, 216, 230, 0.5); /* light pastel blue */
+  text-align: right;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
+import bgImage from "./assets/bg.png"; // 👈 make sure bg.png is inside client/src/assets/
 
 function App() {
   const [message, setMessage] = useState("");
@@ -56,8 +57,16 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="background-overlay"></div>
+    <div
+      className="App"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        minHeight: "100vh",
+      }}
+    >
       <div className="container">
         <h1>Yours Truly ~ 🎀</h1>
 
@@ -95,4 +104,3 @@ function App() {
 }
 
 export default App;
-
