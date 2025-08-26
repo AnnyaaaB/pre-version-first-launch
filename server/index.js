@@ -13,8 +13,8 @@ const app = express();
 
 // ----------------- CORS -----------------
 const allowedOrigins = [
-  "http://localhost:3000",          // dev
-  "https://annyaaab.github.io",     // github pages  // Hugging Face frontend (replace <your-space> with actual space name)
+  "http://localhost:3000",                // dev
+  "https://pre-version-first-launch.onrender.com" // prod (no trailing slash)
 ];
 
 app.use(
