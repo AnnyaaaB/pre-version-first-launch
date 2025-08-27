@@ -100,6 +100,8 @@ function App() {
                   <p>
                     <strong>AntrAI</strong> builds compassionate AI to ease
                     suffering, bring clarity, and help people find meaning.
+                    <br />
+                          We will talk about the real issues; birth, disease, old age and death.
                   </p>
                 </div>
               )
