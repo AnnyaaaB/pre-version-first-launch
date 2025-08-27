@@ -196,3 +196,29 @@ button {
   text-align: right;
   color: #2c2c2c;
 }
+
+.chat-message-wrapper {
+  display: flex;
+  align-items: flex-start;
+  margin: 10px 0;
+}
+
+.chat-message-wrapper.user {
+  flex-direction: row-reverse; /* user messages align right */
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;  /* circular */
+  margin: 0 10px;
+  object-fit: cover;
+  border: 2px solid #a66e59; /* autumn accent */
+}
+
+/* Existing bubbles stay intact */
+.chat-message {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 12px;
+}

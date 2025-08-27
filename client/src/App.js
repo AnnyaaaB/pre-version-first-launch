@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import "./App.css";
 import bgImage from "./assets/bg.png"; 
+import userProfile from "./assets/userProfile.png";      
+import autumnProfile from "./assets/autumnProfile.png";  
 
 function App() {
   const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState([]); // stores full conversation
+  const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Always use same origin as frontend (works on Render & localhost)
   const API_BASE = window.location.origin;
 
   const sendMessage = async () => {
     if (!message.trim()) return;
 
-    // Add user message to history
     const newHistory = [...chatHistory, { role: "user", content: message }];
     setChatHistory(newHistory);
     setMessage("");
@@ -23,7 +23,7 @@ function App() {
       const response = await fetch(`${API_BASE}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ history: newHistory }), // send full history
+        body: JSON.stringify({ history: newHistory }),
       });
 
       const data = await response.json();
@@ -32,7 +32,6 @@ function App() {
         content: data.reply || "No response from Autumn.",
       };
 
-      // Append AI reply to history
       setChatHistory((prev) => [...prev, aiReply]);
     } catch (err) {
       setChatHistory((prev) => [
@@ -75,15 +74,25 @@ function App() {
           {chatHistory.map((msg, i) => (
             <div
               key={i}
-              className={`chat-message ${msg.role === "user" ? "user" : "assistant"}`}
+              className={`chat-message-wrapper ${msg.role}`}
             >
-              <p dangerouslySetInnerHTML={{ __html: msg.content }} />
-              {msg.role === "assistant" && (
-                <div className="feedback-buttons">
-                  <button onClick={() => sendFeedback("good", i)}>👍</button>
-                  <button onClick={() => sendFeedback("bad", i)}>👎</button>
-                </div>
-              )}
+              {/* Profile Picture */}
+              <img
+                src={msg.role === "user" ? userProfile : autumnProfile}
+                alt={msg.role}
+                className="profile-pic"
+              />
+
+              {/* Chat Bubble */}
+              <div className={`chat-message ${msg.role}`}>
+                <p dangerouslySetInnerHTML={{ __html: msg.content }} />
+                {msg.role === "assistant" && (
+                  <div className="feedback-buttons">
+                    <button onClick={() => sendFeedback("good", i)}>👍</button>
+                    <button onClick={() => sendFeedback("bad", i)}>👎</button>
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
