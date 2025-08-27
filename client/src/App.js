@@ -115,7 +115,7 @@ function App() {
                   <h2>👥 Our Team</h2>
                   <img src={teamImg} alt="Our Team" className="modal-image" />
                   <p>
-                    AntrAI is founded by University students, 
+                    <strong>AntrAI</strong> is founded by University students, 
                     <br />who aim to shape AI for life, not
                     profit.
                   </p>
@@ -139,6 +139,8 @@ function App() {
                   <p>
                     Say hi to <strong>Autumn</strong>, your soulful companion
                     for reflection, meaning, and happiness beyond screens.
+                    <br />
+                          ~ From <strong>AntrAI</strong>
                   </p>
                 </div>
               )
