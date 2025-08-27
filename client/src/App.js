@@ -86,7 +86,7 @@ function App() {
 
       {/* 🔹 Side Menu */}
       <div className={`side-menu ${menuOpen ? "active" : ""}`}>
-        <h2>🧿 We for You</h2>
+        <h2>☻ We for You</h2>
         <ul>
           <li
             onClick={() =>
