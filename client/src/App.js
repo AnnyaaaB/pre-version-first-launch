@@ -3,13 +3,16 @@ import "./App.css";
 import bgImage from "./assets/bg.png"; 
 import userProfile from "./assets/userProfile.png";      
 import autumnProfile from "./assets/autumnProfile.png";  
+import logo from "./assets/logo.png";          
+import teamImg from "./assets/team.png";       
+import autumnHero from "./assets/autumn.png";  
 
 function App() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); 
-  const [modalContent, setModalContent] = useState(null); // 👈 For modal
+  const [modalContent, setModalContent] = useState(null); 
 
   const API_BASE = window.location.origin;
 
@@ -83,16 +86,62 @@ function App() {
 
       {/* 🔹 Side Menu */}
       <div className={`side-menu ${menuOpen ? "active" : ""}`}>
-        <h2>✨ We for You</h2>
+        <h2>🧿 We for You</h2>
         <ul>
-          <li onClick={() => openModal("🪷 Our Mission:\nAntrAI builds compassionate AI to ease suffering, bring clarity, and help people find meaning.")}>
+          <li
+            onClick={() =>
+              openModal(
+                <div className="modal-section">
+                  <h2>🌿 Our Mission</h2>
+                  <img src={logo} alt="Company Logo" className="modal-image" />
+                  <p>
+                    <strong>AntrAI</strong> builds compassionate AI to ease
+                    suffering, bring clarity, and help people find meaning.
+                  </p>
+                </div>
+              )
+            }
+          >
             🦚 Our Mission
           </li>
-          <li onClick={() => openModal("👥 Our Team:\nNot your usual founders, curious students shaping AI for life, not profit.")}>
+
+          <li
+            onClick={() =>
+              openModal(
+                <div className="modal-section">
+                  <h2>👥 Our Team</h2>
+                  <img src={teamImg} alt="Our Team" className="modal-image" />
+                  <p>
+                    AntrAI is founded by University students, 
+                    <br />who aim to shape AI for life, not
+                    profit.
+                  </p>
+                </div>
+              )
+            }
+          >
             🌻 Our Team
           </li>
-          <li onClick={() => openModal("🦋 Meet Autumn from AntrAI:\nSay hi to Autumn, your soulful companion for reflection, meaning, and happiness beyond screens.")}>
-            🦄 How to use Autumn
+
+          <li
+            onClick={() =>
+              openModal(
+                <div className="modal-section">
+                  <h2>🦋 Meet Autumn</h2>
+                  <img
+                    src={autumnHero}
+                    alt="Autumn AI"
+                    className="modal-image"
+                  />
+                  <p>
+                    Say hi to <strong>Autumn</strong>, your soulful companion
+                    for reflection, meaning, and happiness beyond screens.
+                  </p>
+                </div>
+              )
+            }
+          >
+            🦄 Meet Autumn
           </li>
         </ul>
       </div>
@@ -101,7 +150,7 @@ function App() {
       {modalContent && (
         <div className="modal-overlay" onClick={() => setModalContent(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <p>{modalContent}</p>
+            {modalContent}
             <button onClick={() => setModalContent(null)}>Close</button>
           </div>
         </div>
@@ -112,10 +161,7 @@ function App() {
 
         <div className="chat-box">
           {chatHistory.map((msg, i) => (
-            <div
-              key={i}
-              className={`chat-message-wrapper ${msg.role}`}
-            >
+            <div key={i} className={`chat-message-wrapper ${msg.role}`}>
               <img
                 src={msg.role === "user" ? userProfile : autumnProfile}
                 alt={msg.role}

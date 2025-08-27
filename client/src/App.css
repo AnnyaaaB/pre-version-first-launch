@@ -333,3 +333,45 @@ button {
 .modal-content button:hover {
   background: #8b5847;
 }
+
+/* Modal content styling */
+.modal-content {
+  background: #fff5e1;
+  color: #3a2312;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 480px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.modal-content h2 {
+  color: #a66e59;
+  margin-bottom: 12px;
+  font-family: 'Unica One', sans-serif;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.modal-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #a66e59;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background: #8b5847;
+}
+
+.modal-image {
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 15px 0;
+}
