@@ -8,6 +8,8 @@ function App() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); 
+  const [modalContent, setModalContent] = useState(null); // 👈 For modal
 
   const API_BASE = window.location.origin;
 
@@ -56,6 +58,11 @@ function App() {
     }
   };
 
+  const openModal = (content) => {
+    setModalContent(content);
+    setMenuOpen(false);
+  };
+
   return (
     <div
       className="App"
@@ -67,6 +74,39 @@ function App() {
         minHeight: "100vh",
       }}
     >
+      {/* 🔹 Hamburger Button */}
+      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
+        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
+        <div className={`bar ${menuOpen ? "open" : ""}`}></div>
+      </div>
+
+      {/* 🔹 Side Menu */}
+      <div className={`side-menu ${menuOpen ? "active" : ""}`}>
+        <h2>🌟 We for You</h2>
+        <ul>
+          <li onClick={() => openModal("🪷 Our Mission:\nAntrAI builds compassionate AI to ease suffering, bring clarity, and help people find meaning.")}>
+            🦚 Our Mission
+          </li>
+          <li onClick={() => openModal("👥 Our Team:\nNot your usual founders, curious students shaping AI for life, not profit.")}>
+            🌻 Our Team
+          </li>
+          <li onClick={() => openModal("🦋 Meet Autumn from AntrAI:\nSay hi to Autumn, your soulful companion for reflection, meaning, and happiness beyond screens.")}>
+            🦄 How to use Autumn
+          </li>
+        </ul>
+      </div>
+
+      {/* 🔹 Modal */}
+      {modalContent && (
+        <div className="modal-overlay" onClick={() => setModalContent(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <p>{modalContent}</p>
+            <button onClick={() => setModalContent(null)}>Close</button>
+          </div>
+        </div>
+      )}
+
       <div className="container">
         <h1>Yours Truly ~ 🎀</h1>
 
@@ -76,14 +116,11 @@ function App() {
               key={i}
               className={`chat-message-wrapper ${msg.role}`}
             >
-              {/* Profile Picture */}
               <img
                 src={msg.role === "user" ? userProfile : autumnProfile}
                 alt={msg.role}
                 className="profile-pic"
               />
-
-              {/* Chat Bubble */}
               <div className={`chat-message ${msg.role}`}>
                 <p dangerouslySetInnerHTML={{ __html: msg.content }} />
                 {msg.role === "assistant" && (
