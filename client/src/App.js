@@ -28,7 +28,10 @@ function App() {
       const response = await fetch(`${API_BASE}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ history: newHistory }),
+        body: JSON.stringify({ 
+          history: newHistory,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone // 👈 send user timezone
+        }),
       });
 
       const data = await response.json();

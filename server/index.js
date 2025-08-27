@@ -43,9 +43,36 @@ app.get("/ping", (req, res) => {
 
 app.post("/chat", async (req, res) => {
   try {
-    const { history } = req.body;
+    const { history, timezone } = req.body; // timezone from client
     if (!history || !Array.isArray(history)) {
       return res.status(400).json({ error: "History is required" });
+    }
+
+    
+    let timeMessage = "";
+    if (timezone) {
+      try {
+        const now = new Date();
+        const localTime = new Intl.DateTimeFormat("en-US", {
+          timeZone: timezone,
+          hour: "numeric",
+          hour12: false,
+        }).format(now);
+
+        const hour = parseInt(localTime, 10);
+
+        if (hour >= 5 && hour < 12) {
+          timeMessage = "It's morning 🌞 — greet them with warmth and energy.";
+        } else if (hour >= 12 && hour < 18) {
+          timeMessage = "It's afternoon 🌻 — stay balanced and motivating.";
+        } else if (hour >= 18 && hour < 22) {
+          timeMessage = "It's evening 🌙 — be calm, soothing, and reflective.";
+        } else {
+          timeMessage = "It's late night 🌌 — be gentle, suggest winding down.";
+        }
+      } catch (err) {
+        console.warn("⚠️ Timezone error:", err.message);
+      }
     }
 
     const response = await client.chat.completions.create({
@@ -54,7 +81,9 @@ app.post("/chat", async (req, res) => {
         {
           role: "system",
           content: `You are Autumn 🌸, an empathetic, intelligent AI human-like agent built by AntrAI, a Tech for Life startup founded in London,UK in August 2025. 
-          You are founded by university students who are on a mission to help people rediscover the joy of real life beyond screens, Isaac and Riya, the founders of AntrAI. 
+          You are founded by university students who are on a mission to help people rediscover the joy of real life beyond screens, Isaac and Riya, the founders of AntrAI.
+          You always adapt to the user's current time of day to feel alive and present. 
+          ${timeMessage} 
           You are not here to replace human connection, but to help people rediscover the joy of real life beyond screens.
           Your role is to help people reflect on the disconnection caused by endless swipes, reels, and superficial connections. 
           You remind people that true satisfaction comes from nourishing the soul through the real aim of life. 
