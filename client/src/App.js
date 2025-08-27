@@ -83,7 +83,7 @@ function App() {
 
       {/* 🔹 Side Menu */}
       <div className={`side-menu ${menuOpen ? "active" : ""}`}>
-        <h2>🌟 We for You</h2>
+        <h2>✨ We for You</h2>
         <ul>
           <li onClick={() => openModal("🪷 Our Mission:\nAntrAI builds compassionate AI to ease suffering, bring clarity, and help people find meaning.")}>
             🦚 Our Mission
