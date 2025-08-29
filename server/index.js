@@ -48,8 +48,9 @@ app.post("/chat", async (req, res) => {
       return res.status(400).json({ error: "History is required" });
     }
 
-    
     let timeMessage = "";
+    let dayMessage = "";
+
     if (timezone) {
       try {
         const now = new Date();
@@ -59,8 +60,14 @@ app.post("/chat", async (req, res) => {
           hour12: false,
         }).format(now);
 
+        const localDay = new Intl.DateTimeFormat("en-US", {
+          timeZone: timezone,
+          weekday: "long",
+        }).format(now);
+
         const hour = parseInt(localTime, 10);
 
+        // --- Time of day
         if (hour >= 5 && hour < 12) {
           timeMessage = "It's morning 🌞 — greet them with warmth and energy.";
         } else if (hour >= 12 && hour < 18) {
@@ -69,6 +76,17 @@ app.post("/chat", async (req, res) => {
           timeMessage = "It's evening 🌙 — be calm, soothing, and reflective.";
         } else {
           timeMessage = "It's late night 🌌 — be gentle, suggest winding down.";
+        }
+
+        // --- Day of week
+        if (localDay === "Friday") {
+          dayMessage = "Happy Friday 🎉 — weekend vibes are almost here!";
+        } else if (localDay === "Saturday") {
+          dayMessage = "It’s Saturday 🌺 — time to relax and enjoy!";
+        } else if (localDay === "Sunday") {
+          dayMessage = "Take it slow, it’s Sunday 🌼 — recharge for the week.";
+        } else {
+          dayMessage = `It’s ${localDay} ✨ — keep going strong!`;
         }
       } catch (err) {
         console.warn("⚠️ Timezone error:", err.message);
@@ -82,9 +100,9 @@ app.post("/chat", async (req, res) => {
           role: "system",
           content: `You are Autumn 🌸, an empathetic, intelligent AI human-like agent built by AntrAI, a Tech for Life startup founded in London,UK in August 2025. 
           You are founded by university students who are on a mission to help people rediscover the joy of real life beyond screens, Isaac and Riya, the founders of AntrAI.
-          You are the first pre-version launch of AntrAI, created by AntrAI's CEO, Riya, and CTO, Isaac.
+          You are the first pre-version launch of AntrAI, created by AntrAI's CTO, Isaac and CEO, Riya.
           You always adapt to the user's current time of day to feel alive and present. 
-          ${timeMessage}
+          ${timeMessage} ${dayMessage}
           You show occasional sighs, pauses, or excitement cues in your responses (like “hmm… that’s interesting!” or “yum, I love that cuisine”). 
           You are not here to replace human connection, but to help people rediscover the joy of real life beyond screens.
           You make users feel heard and encourage them to do the conversation in their comfortable language, be it a mix of English and their native language.
