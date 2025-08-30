@@ -175,7 +175,7 @@ app.post("/join", (req, res) => {
     // Check if email already exists
     const alreadySignedUp = signups.some(s => s.email.toLowerCase() === email.toLowerCase());
     if (alreadySignedUp) {
-      return res.status(400).json({ message: "This email is already signed up 🚫" });
+      return res.status(400).json({ message: "You've already joined us 🤗" });
     }
 
     // Add new signup
