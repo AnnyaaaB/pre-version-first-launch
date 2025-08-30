@@ -153,6 +153,38 @@ function App() {
         </ul>
       </div>
 
+    
+<li
+  onClick={() =>
+    openModal(
+      <div className="modal-section">
+        <h2>✨ Start Your Journey</h2>
+        <div className="journey-gallery">
+          <div className="journey-card">
+            <img src={require("./assets/journey1.png")} alt="Journey 1" />
+            <p>🌱 Begin with self-reflection and a fresh start.</p>
+          </div>
+          <div className="journey-card">
+            <img src={require("./assets/journey2.png")} alt="Journey 2" />
+            <p>🌸 Grow with compassion, love, and care.</p>
+          </div>
+          <div className="journey-card">
+            <img src={require("./assets/journey3.png")} alt="Journey 3" />
+            <p>🌞 Embrace challenges as opportunities for light.</p>
+          </div>
+          <div className="journey-card">
+            <img src={require("./assets/journey4.png")} alt="Journey 4" />
+            <p>🌌 Find meaning beyond the ordinary.</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+>
+  ✨ Start Your Journey
+</li>
+
+
       {/* 🔹 Modal */}
       {modalContent && (
         <div className="modal-overlay" onClick={() => setModalContent(null)}>
@@ -196,7 +228,7 @@ function App() {
         />
         <br />
         <button onClick={sendMessage} disabled={loading}>
-          {loading ? "Thinking..." : "Send"}
+          {loading ? "I'm thinking..." : "Send"}
         </button>
       </div>
     </div>
