@@ -153,7 +153,7 @@ app.post("/feedback", (req, res) => {
 });
 
 // ----------------- JOIN US ROUTE -----------------
-const signupsFile = path.join(__dirname, "signups.json");
+const signupsFile = path.join("/tmp", "signups.json");
 
 // Ensure the file exists
 if (!fs.existsSync(signupsFile)) {
