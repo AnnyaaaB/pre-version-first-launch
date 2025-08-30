@@ -430,21 +430,37 @@ button {
   font-weight: 700;
 }
 
+
 /* ---------------- Responsive tweaks ---------------- */
 
 /* Mobile (small screens: 0–600px) */
 @media (max-width: 600px) {
+  .modal-section {
+    max-height: 90vh;   /* fit modal within screen */
+    overflow-y: auto;   /* allow scroll if still too tall */
+    padding: 10px;
+  }
+
   .journey-gallery {
     grid-template-columns: 1fr; /* stack cards vertically */
-    gap: 16px;
+    gap: 12px;
+  }
+
+  .journey-card {
+    padding: 8px;       /* smaller padding */
   }
 
   .journey-card img {
-    height: 120px; /* slightly smaller images for mobile */
+    height: 90px;       /* smaller images */
   }
 
   .journey-card p {
-    font-size: 0.9rem; /* more compact text */
+    font-size: 0.8rem;  /* smaller text */
+    line-height: 1.3;
+  }
+
+  .modal-section h2 {
+    font-size: 1.2rem;  /* slightly smaller heading */
   }
 }
 
