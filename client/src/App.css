@@ -413,7 +413,7 @@ button {
   line-height: 1.4;
 }
 
-/* Style override so "✨ Start Your Journey" is black inside side menu */
+/* Side menu styling */
 .side-menu ul li.journey-link,
 .side-menu.active ul li.journey-link {
   color: #000 !important;  /* force black */
@@ -424,12 +424,40 @@ button {
   color: #a66e59 !important; /* hover back to autumn orange */
 }
 
-/* Force Start Your Journey title inside modal to be black */
+/* Force Start Your Journey title inside modal */
 .modal-section h2 {
-  color: #000 !important;  /* pure black */
+  color: #000 !important;
   font-weight: 700;
 }
 
-.side-menu ul li.journey-link {
-  color: #000 !important;
+/* ---------------- Responsive tweaks ---------------- */
+
+/* Mobile (small screens: 0–600px) */
+@media (max-width: 600px) {
+  .journey-gallery {
+    grid-template-columns: 1fr; /* stack cards vertically */
+    gap: 16px;
+  }
+
+  .journey-card img {
+    height: 120px; /* slightly smaller images for mobile */
+  }
+
+  .journey-card p {
+    font-size: 0.9rem; /* more compact text */
+  }
+}
+
+/* Tablets (600px – 900px) */
+@media (min-width: 601px) and (max-width: 900px) {
+  .journey-gallery {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  }
+}
+
+/* Desktop (900px+) */
+@media (min-width: 901px) {
+  .journey-gallery {
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid */
+  }
 }
