@@ -172,6 +172,12 @@ app.post("/join", (req, res) => {
     const data = fs.readFileSync(signupsFile, "utf-8");
     const signups = JSON.parse(data);
 
+    // Check if email already exists
+    const alreadySignedUp = signups.some(s => s.email.toLowerCase() === email.toLowerCase());
+    if (alreadySignedUp) {
+      return res.status(400).json({ message: "This email is already signed up 🚫" });
+    }
+
     // Add new signup
     const newSignup = { fullName, email, date: new Date().toISOString() };
     signups.push(newSignup);
@@ -180,13 +186,12 @@ app.post("/join", (req, res) => {
     fs.writeFileSync(signupsFile, JSON.stringify(signups, null, 2));
 
     console.log("💾 New signup:", newSignup);
-    res.json({ message: `🎉 Thanks for joining us, ${fullName}!` });
+    res.json({ message: `🍰 Thanks for joining us, ${fullName}!` });
   } catch (err) {
     console.error("❌ Error saving signup:", err);
     res.status(500).json({ message: "Error saving signup" });
   }
 });
-
 
 // ----------------- STATIC FRONTEND -----------------
 
