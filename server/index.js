@@ -190,8 +190,6 @@ app.post("/join", (req, res) => {
 
 // ----------------- STATIC FRONTEND -----------------
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Serve React build (output from client/)
 app.use(express.static(path.join(__dirname, "../client/build")));
