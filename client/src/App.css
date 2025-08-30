@@ -477,3 +477,49 @@ button {
     grid-template-columns: repeat(2, 1fr); /* 2x2 grid */
   }
 }
+
+/* Join Us modal styles */
+.join-us {
+  text-align: center;
+}
+
+.join-us img.modal-image {
+  max-width: 200px;
+  margin: 0 auto 15px auto;
+  border-radius: 12px;
+}
+
+.join-us-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.join-us-form input {
+  padding: 10px;
+  border: 2px solid #a66e59;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.join-us-form input:focus {
+  border-color: #3a2312;
+  box-shadow: 0 0 6px rgba(58, 35, 18, 0.3);
+}
+
+.join-us-form button {
+  padding: 10px;
+  background: linear-gradient(135deg, #a66e59, #3a2312);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.join-us-form button:hover {
+  background: linear-gradient(135deg, #3a2312, #a66e59);
+}

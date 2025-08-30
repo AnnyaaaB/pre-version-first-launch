@@ -150,8 +150,54 @@ function App() {
           >
             🦄 Meet Autumn
           </li>
+
+      <li
+  onClick={() =>
+    openModal(
+      <div className="modal-section join-us">
+        <h2>💌 Join Us</h2>
+        <img src={require("./assets/joinus.png")} alt="Join Us" className="modal-image" />
+        <p>Become a <strong>club member</strong> for free 💌</p>
+         <br />  Get ready for the launch of Autumn!
+          
+
+        
+        <form
+          className="join-us-form"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const fullName = e.target.fullName.value;
+            const email = e.target.email.value;
+
+            try {
+              const response = await fetch(`${API_BASE}/join`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fullName, email }),
+              });
+
+              const data = await response.json();
+              alert(data.message || "✅ Thanks for joining us!");
+              e.target.reset();
+            } catch (err) {
+              alert("⚠️ Error submitting form: " + err.message);
+            }
+          }}
+        >
+          <input type="text" name="fullName" placeholder="Full Name" required />
+          <input type="email" name="email" placeholder="Email Address" required />
+          <button type="submit">Join Now ✨</button>
+        </form>
+      </div>
+    )
+  }
+>
+  🌸 Join Us
+</li>
+
         </ul>
       </div>
+
 
     
 <li
