@@ -376,6 +376,7 @@ button {
   margin: 15px 0;
 }
 
+
 /* Journey Modal Styles */
 .journey-gallery {
   display: grid;
@@ -410,4 +411,25 @@ button {
   font-size: 0.95rem;
   color: #3a2312; /* autumn deep brown */
   line-height: 1.4;
+}
+
+/* Style override so "✨ Start Your Journey" is black inside side menu */
+.side-menu ul li.journey-link,
+.side-menu.active ul li.journey-link {
+  color: #000 !important;  /* force black */
+  font-weight: 700;
+}
+
+.side-menu ul li.journey-link:hover {
+  color: #a66e59 !important; /* hover back to autumn orange */
+}
+
+/* Force Start Your Journey title inside modal to be black */
+.modal-section h2 {
+  color: #000 !important;  /* pure black */
+  font-weight: 700;
+}
+
+.side-menu ul li.journey-link {
+  color: #000 !important;
 }

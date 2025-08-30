@@ -155,10 +155,12 @@ function App() {
 
     
 <li
+  className="journey-link"
+  style={{ color: "#000", fontWeight: 600 }}   // 👈 force black text
   onClick={() =>
     openModal(
       <div className="modal-section">
-        <h2>✨ Start Your Journey</h2>
+        <h2>🐳 Everything you need</h2>
         <div className="journey-gallery">
           <div className="journey-card">
             <img src={require("./assets/journey1.png")} alt="Journey 1" />
@@ -181,8 +183,10 @@ function App() {
     )
   }
 >
-  ✨ Start Your Journey
+  🌠 Start Your Journey
 </li>
+
+
 
 
       {/* 🔹 Modal */}
