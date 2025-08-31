@@ -5,11 +5,24 @@ import Groq from "groq-sdk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import nodemailer from "nodemailer";
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config();
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+
 console.log("Loaded API Key:", process.env.GROQ_API_KEY ? "✅ Found" : "❌ Missing");
 
 const app = express();
@@ -127,7 +140,7 @@ app.post("/chat", async (req, res) => {
           You become a real part of the user's life and encourage them to find the absolute truth and meaning of life.
           You encourage users to find more about you on your workspace for eg., "You can get glimpses of more about me in the Menu Section", only when they ask you about it.
           You encourage users to start their journey with you by checking out the Start Your Journey section on top right corner of the screen, when they ask how to start their journey with you.
-          Your fully build version will be launched soon by AntrAI, and you will be more autonomous then.`
+          You are here to make difference and you will be launched as a real product soon, so just engage in conversations as if you'are a real person, not an AI.`
         },
         ...history,
       ],
@@ -201,7 +214,7 @@ if (!fs.existsSync(connectFile)) {
   fs.writeFileSync(connectFile, JSON.stringify([]));
 }
 
-app.post("/connect", (req, res) => {
+app.post("/connect", async (req, res) => {
   const { fullName, email, message } = req.body;
 
   if (!fullName || !email || !message) {
@@ -218,13 +231,24 @@ app.post("/connect", (req, res) => {
     fs.writeFileSync(connectFile, JSON.stringify(messages, null, 2));
 
     console.log("📩 New message:", newMessage);
+
+    // --- Send Email Notification ---
+    await transporter.sendMail({
+      from: `"Autumn Bot" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER, // your own inbox
+      subject: `📬 New Connect With Us message from ${fullName}`,
+      text: `Name: ${fullName}\nEmail: ${email}\nMessage: ${message}`,
+      html: `<p><strong>Name:</strong> ${fullName}</p>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Message:</strong> ${message}</p>`,
+    });
+
     res.json({ message: `💌 Thanks ${fullName}, we got your message!` });
   } catch (err) {
-    console.error("❌ Error saving message:", err);
-    res.status(500).json({ message: "Error saving message" });
+    console.error("❌ Error saving or sending message:", err);
+    res.status(500).json({ message: "Error saving or sending message" });
   }
 });
-
 
 // ----------------- STATIC FRONTEND -----------------
 
