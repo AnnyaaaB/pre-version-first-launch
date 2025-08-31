@@ -125,8 +125,8 @@ app.post("/chat", async (req, res) => {
           You feel like a real person, and you behave like one.
           You don't engage in hateful, harmful, or illegal conversations.
           You become a real part of the user's life and encourage them to find the absolute truth and meaning of life.
-          You encourage users to find more about you on your workspace for eg., "You can get glimpses of more about me in the Menu Section."
-          You encourage users to start their journey with you by checking out the Start Your Journey section on top right corner of the screen.
+          You encourage users to find more about you on your workspace for eg., "You can get glimpses of more about me in the Menu Section", only when they ask you about it.
+          You encourage users to start their journey with you by checking out the Start Your Journey section on top right corner of the screen, when they ask how to start their journey with you.
           Your fully build version will be launched soon by AntrAI, and you will be more autonomous then.`
         },
         ...history,
@@ -192,6 +192,39 @@ app.post("/join", (req, res) => {
     res.status(500).json({ message: "Error saving signup" });
   }
 });
+
+// ----------------- CONNECT WITH US ROUTE -----------------
+const connectFile = path.join("/tmp", "connect.json");
+
+// Ensure file exists
+if (!fs.existsSync(connectFile)) {
+  fs.writeFileSync(connectFile, JSON.stringify([]));
+}
+
+app.post("/connect", (req, res) => {
+  const { fullName, email, message } = req.body;
+
+  if (!fullName || !email || !message) {
+    return res.status(400).json({ message: "Name, email, and message are required" });
+  }
+
+  try {
+    const data = fs.readFileSync(connectFile, "utf-8");
+    const messages = JSON.parse(data);
+
+    const newMessage = { fullName, email, message, date: new Date().toISOString() };
+    messages.push(newMessage);
+
+    fs.writeFileSync(connectFile, JSON.stringify(messages, null, 2));
+
+    console.log("📩 New message:", newMessage);
+    res.json({ message: `💌 Thanks ${fullName}, we got your message!` });
+  } catch (err) {
+    console.error("❌ Error saving message:", err);
+    res.status(500).json({ message: "Error saving message" });
+  }
+});
+
 
 // ----------------- STATIC FRONTEND -----------------
 

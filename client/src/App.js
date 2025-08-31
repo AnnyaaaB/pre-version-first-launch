@@ -186,13 +186,60 @@ function App() {
         >
           <input type="text" name="fullName" placeholder="Full Name" required />
           <input type="email" name="email" placeholder="Email Address" required />
-          <button type="submit">Join Now ✨</button>
+          <button type="submit">Join Now ☃️</button>
         </form>
       </div>
     )
   }
 >
-  🌸 Join Us
+  🌴 Join Us
+</li>
+
+<li
+  onClick={() =>
+    openModal(
+      <div className="modal-section connect-us">
+        <h2>🥞 Connect With Us</h2>
+        <img
+          src={require("./assets/connect.png")}
+          alt="Connect With Us"
+          className="modal-image"
+        />
+        <p>We’d love to hear from you 🎐</p>
+
+        <form
+          className="connect-us-form"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const fullName = e.target.fullName.value;
+            const email = e.target.email.value;
+            const message = e.target.message.value;
+
+            try {
+              const response = await fetch(`${API_BASE}/connect`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fullName, email, message }),
+              });
+
+              const data = await response.json();
+              alert(data.message || "✅ Thanks for reaching out!");
+              e.target.reset();
+            } catch (err) {
+              alert("⚠️ Error submitting form: " + err.message);
+            }
+          }}
+        >
+          <input type="text" name="fullName" placeholder="Full Name" required />
+          <input type="email" name="email" placeholder="Email Address" required />
+          <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+          <button type="submit">Send 🕊️</button>
+        </form>
+      </div>
+    )
+  }
+>
+  🥰 Connect With Us
 </li>
 
         </ul>
