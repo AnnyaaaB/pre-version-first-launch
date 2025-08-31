@@ -7,6 +7,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
 
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // ----------------- FILE HELPERS -----------------
 const dataDir = path.join(__dirname, "data");
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
@@ -26,10 +31,6 @@ function saveData(name, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
 
-
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
