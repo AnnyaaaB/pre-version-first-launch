@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import bgImage from "./assets/bg.png"; 
 import userProfile from "./assets/userProfile.png";      
 import autumnProfile from "./assets/autumnProfile.png";  
 import logo from "./assets/logo.png";          
 import teamImg from "./assets/team.png";       
-import autumnHero from "./assets/autumn.png";  
+import autumnHero from "./assets/autumn.png"; 
 
 function App() {
   const [message, setMessage] = useState("");
@@ -15,6 +15,21 @@ function App() {
   const [modalContent, setModalContent] = useState(null); 
 
   const API_BASE = window.location.origin;
+
+   // 🔹 Load waitlist count on first render
+  useEffect(() => {
+    const loadWaitlistCount = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/waitlist/count`);
+        const data = await res.json();
+        const el = document.getElementById("waitlist-count");
+        if (el) el.innerText = data.count;
+      } catch (err) {
+        console.error("Failed to load waitlist count", err);
+      }
+    };
+    loadWaitlistCount();
+  }, [API_BASE]);
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -194,6 +209,64 @@ function App() {
 >
   🌴 Join Us
 </li>
+
+<li
+  onClick={() =>
+    openModal(
+      <div className="modal-section waitlist">
+        <h2>🤩 Join Waitlist</h2>
+        <img
+          src={require("./assets/waitlist.png")}
+          alt="Join Waitlist"
+          className="modal-image"
+        />
+        <p>Be among the first to experience Autumn 🌟</p>
+
+        {/* Show live count */}
+        <p>
+          <strong>Already joined:</strong>{" "}
+          <span id="waitlist-count">...</span> people 🎉
+        </p>
+
+        <form
+          className="waitlist-form"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const fullName = e.target.fullName.value;
+            const email = e.target.email.value;
+
+            try {
+              const response = await fetch(`${API_BASE}/waitlist`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fullName, email }),
+              });
+
+              const data = await response.json();
+              alert(data.message || "🫶 Thanks for joining the waitlist!");
+              e.target.reset();
+
+              // Refresh count
+              const countRes = await fetch(`${API_BASE}/waitlist/count`);
+              const countData = await countRes.json();
+              document.getElementById("waitlist-count").innerText =
+                countData.count;
+            } catch (err) {
+              alert("⚠️ Error submitting form: " + err.message);
+            }
+          }}
+        >
+          <input type="text" name="fullName" placeholder="Full Name" required />
+          <input type="email" name="email" placeholder="Email Address" required />
+          <button type="submit">Join Waitlist 🌼</button>
+        </form>
+      </div>
+    )
+  }
+>
+  🐥 Join Waitlist
+</li>
+
 
 <li
   onClick={() =>

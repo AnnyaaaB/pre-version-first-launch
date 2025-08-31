@@ -7,6 +7,25 @@ import path from "path";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
 
+// ----------------- FILE HELPERS -----------------
+const dataDir = path.join(__dirname, "data");
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
+
+function getFilePath(name) {
+  return path.join(dataDir, `${name}.json`);
+}
+
+function loadData(name) {
+  const file = getFilePath(name);
+  if (!fs.existsSync(file)) fs.writeFileSync(file, JSON.stringify([]));
+  return JSON.parse(fs.readFileSync(file, "utf-8"));
+}
+
+function saveData(name, data) {
+  const file = getFilePath(name);
+  fs.writeFileSync(file, JSON.stringify(data, null, 2));
+}
+
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -165,38 +184,24 @@ app.post("/feedback", (req, res) => {
   res.json({ success: true });
 });
 
+
 // ----------------- JOIN US ROUTE -----------------
-const signupsFile = path.join("/tmp", "signups.json");
-
-// Ensure the file exists
-if (!fs.existsSync(signupsFile)) {
-  fs.writeFileSync(signupsFile, JSON.stringify([]));
-}
-
 app.post("/join", (req, res) => {
   const { fullName, email } = req.body;
-
   if (!fullName || !email) {
     return res.status(400).json({ message: "Full name and email are required" });
   }
 
   try {
-    // Read existing signups
-    const data = fs.readFileSync(signupsFile, "utf-8");
-    const signups = JSON.parse(data);
-
-    // Check if email already exists
+    const signups = loadData("signups");
     const alreadySignedUp = signups.some(s => s.email.toLowerCase() === email.toLowerCase());
     if (alreadySignedUp) {
       return res.status(400).json({ message: "You've already joined us 🤗" });
     }
 
-    // Add new signup
     const newSignup = { fullName, email, date: new Date().toISOString() };
     signups.push(newSignup);
-
-    // Save back to file
-    fs.writeFileSync(signupsFile, JSON.stringify(signups, null, 2));
+    saveData("signups", signups);
 
     console.log("💾 New signup:", newSignup);
     res.json({ message: `🍰 Thanks for joining us, ${fullName}!` });
@@ -205,6 +210,43 @@ app.post("/join", (req, res) => {
     res.status(500).json({ message: "Error saving signup" });
   }
 });
+
+// ----------------- WAITLIST ROUTES -----------------
+app.post("/waitlist", (req, res) => {
+  const { fullName, email } = req.body;
+  if (!fullName || !email) {
+    return res.status(400).json({ message: "Full name and email are required" });
+  }
+
+  try {
+    const waitlist = loadData("waitlist");
+    const alreadyExists = waitlist.some(s => s.email.toLowerCase() === email.toLowerCase());
+    if (alreadyExists) {
+      return res.status(400).json({ message: "You're already on the waitlist 🤗" });
+    }
+
+    const newEntry = { fullName, email, date: new Date().toISOString() };
+    waitlist.push(newEntry);
+    saveData("waitlist", waitlist);
+
+    console.log("💾 New waitlist entry:", newEntry);
+    res.json({ message: `🌟 Welcome to the waitlist, ${fullName}!` });
+  } catch (err) {
+    console.error("❌ Error saving waitlist:", err);
+    res.status(500).json({ message: "Error saving waitlist" });
+  }
+});
+
+app.get("/waitlist/count", (req, res) => {
+  try {
+    const waitlist = loadData("waitlist");
+    res.json({ count: waitlist.length });
+  } catch (err) {
+    console.error("❌ Error reading waitlist:", err);
+    res.status(500).json({ count: 0 });
+  }
+});
+
 
 // ----------------- CONNECT WITH US ROUTE -----------------
 const connectFile = path.join("/tmp", "connect.json");
