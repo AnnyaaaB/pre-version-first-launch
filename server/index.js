@@ -6,11 +6,20 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
-
+import pkg from "pg";
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
+const { Pool } = pkg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false } // required for Render Postgres
+});
+
 
 // ----------------- FILE HELPERS -----------------
 const dataDir = path.join(__dirname, "data");
@@ -70,6 +79,35 @@ app.use(
 app.use(express.json());
 
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+(async () => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS signups (
+        id SERIAL PRIMARY KEY,
+        full_name TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        source TEXT NOT NULL,  -- 'join' or 'waitlist'
+        date TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS connect_messages (
+        id SERIAL PRIMARY KEY,
+        full_name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        message TEXT NOT NULL,
+        date TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    console.log("✅ Tables created or already exist");
+  } catch (err) {
+    console.error("❌ Error creating tables:", err);
+  }
+})();
+
 
 // ----------------- ROUTES -----------------
 
@@ -185,26 +223,27 @@ app.post("/feedback", (req, res) => {
   res.json({ success: true });
 });
 
-
 // ----------------- JOIN US ROUTE -----------------
-app.post("/join", (req, res) => {
+app.post("/join", async (req, res) => {
   const { fullName, email } = req.body;
   if (!fullName || !email) {
     return res.status(400).json({ message: "Full name and email are required" });
   }
 
   try {
-    const signups = loadData("signups");
-    const alreadySignedUp = signups.some(s => s.email.toLowerCase() === email.toLowerCase());
-    if (alreadySignedUp) {
+    const result = await pool.query(
+      `INSERT INTO signups (full_name, email, source)
+       VALUES ($1, $2, $3)
+       ON CONFLICT (email) DO NOTHING
+       RETURNING *`,
+      [fullName, email, "join"]
+    );
+
+    if (result.rowCount === 0) {
       return res.status(400).json({ message: "You've already joined us 🤗" });
     }
 
-    const newSignup = { fullName, email, date: new Date().toISOString() };
-    signups.push(newSignup);
-    saveData("signups", signups);
-
-    console.log("💾 New signup:", newSignup);
+    console.log("💾 New signup:", result.rows[0]);
     res.json({ message: `🍰 Thanks for joining us, ${fullName}!` });
   } catch (err) {
     console.error("❌ Error saving signup:", err);
@@ -212,25 +251,28 @@ app.post("/join", (req, res) => {
   }
 });
 
+
 // ----------------- WAITLIST ROUTES -----------------
-app.post("/waitlist", (req, res) => {
+app.post("/waitlist", async (req, res) => {
   const { fullName, email } = req.body;
   if (!fullName || !email) {
     return res.status(400).json({ message: "Full name and email are required" });
   }
 
   try {
-    const waitlist = loadData("waitlist");
-    const alreadyExists = waitlist.some(s => s.email.toLowerCase() === email.toLowerCase());
-    if (alreadyExists) {
+    const result = await pool.query(
+      `INSERT INTO signups (full_name, email, source)
+       VALUES ($1, $2, $3)
+       ON CONFLICT (email) DO NOTHING
+       RETURNING *`,
+      [fullName, email, "waitlist"]
+    );
+
+    if (result.rowCount === 0) {
       return res.status(400).json({ message: "You're already on the waitlist 🤗" });
     }
 
-    const newEntry = { fullName, email, date: new Date().toISOString() };
-    waitlist.push(newEntry);
-    saveData("waitlist", waitlist);
-
-    console.log("💾 New waitlist entry:", newEntry);
+    console.log("💾 New waitlist entry:", result.rows[0]);
     res.json({ message: `🌟 Welcome to the waitlist, ${fullName}!` });
   } catch (err) {
     console.error("❌ Error saving waitlist:", err);
@@ -238,10 +280,13 @@ app.post("/waitlist", (req, res) => {
   }
 });
 
-app.get("/waitlist/count", (req, res) => {
+app.get("/waitlist/count", async (req, res) => {
   try {
-    const waitlist = loadData("waitlist");
-    res.json({ count: waitlist.length });
+    const result = await pool.query(
+      "SELECT COUNT(*) FROM signups WHERE source = $1",
+      ["waitlist"]
+    );
+    res.json({ count: parseInt(result.rows[0].count, 10) });
   } catch (err) {
     console.error("❌ Error reading waitlist:", err);
     res.status(500).json({ count: 0 });
@@ -250,13 +295,6 @@ app.get("/waitlist/count", (req, res) => {
 
 
 // ----------------- CONNECT WITH US ROUTE -----------------
-const connectFile = path.join("/tmp", "connect.json");
-
-// Ensure file exists
-if (!fs.existsSync(connectFile)) {
-  fs.writeFileSync(connectFile, JSON.stringify([]));
-}
-
 app.post("/connect", async (req, res) => {
   const { fullName, email, message } = req.body;
 
@@ -265,15 +303,14 @@ app.post("/connect", async (req, res) => {
   }
 
   try {
-    const data = fs.readFileSync(connectFile, "utf-8");
-    const messages = JSON.parse(data);
+    const result = await pool.query(
+      `INSERT INTO connect_messages (full_name, email, message)
+       VALUES ($1, $2, $3)
+       RETURNING *`,
+      [fullName, email, message]
+    );
 
-    const newMessage = { fullName, email, message, date: new Date().toISOString() };
-    messages.push(newMessage);
-
-    fs.writeFileSync(connectFile, JSON.stringify(messages, null, 2));
-
-    console.log("📩 New message:", newMessage);
+    console.log("📩 New connect message:", result.rows[0]);
 
     // --- Send Email Notification ---
     await transporter.sendMail({
@@ -292,6 +329,7 @@ app.post("/connect", async (req, res) => {
     res.status(500).json({ message: "Error saving or sending message" });
   }
 });
+
 
 // ----------------- STATIC FRONTEND -----------------
 
