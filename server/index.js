@@ -235,7 +235,7 @@ app.post("/connect", async (req, res) => {
     // --- Send Email Notification ---
     await transporter.sendMail({
       from: `"Autumn Bot" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // your own inbox
+      to: process.env.EMAIL_TO, // your own inbox
       subject: `📬 New Connect With Us message from ${fullName}`,
       text: `Name: ${fullName}\nEmail: ${email}\nMessage: ${message}`,
       html: `<p><strong>Name:</strong> ${fullName}</p>
