@@ -476,7 +476,7 @@ function App() {
 
             {/* Signature Line */}
       <div className="cozy-signature">
-        <p>⸝⸝ ✧˚ ༘ ⋆｡♡˚ From us 🤎🍂🧺</p>
+       <p>⸝⸝ ✧˚ ༘ ⋆｡♡˚ This RESA <strong>(Reading, Eating, Singing</strong> & <strong>Associating)</strong> is a vital part of our lives. We are here to help you cherish it 🤎🍂🧺</p>
       </div>
 
     </>
