@@ -367,7 +367,7 @@ function App() {
       )}
 
       <div className="container">
-        <h1>Yours Truly ~ 🧁🎀✨</h1>
+        <h1>Yours Truly ~ ˚ ༘ 🦕𖦹⋆｡˚</h1>
 
         <div className="chat-box">
           {chatHistory.map((msg, i) => (
@@ -413,7 +413,7 @@ function App() {
     🤎🍂🧸༄ Warm Delights {showCozy ? "▲" : "▼"}
   </h2>
   <p className="cozy-intro">
-    A little corner for you 🐝🌼🍯💛
+    A little corner, For you 🐝🌼🍯💛
   </p>
 
   {showCozy && (
@@ -476,7 +476,7 @@ function App() {
 
             {/* Signature Line */}
       <div className="cozy-signature">
-        <p>⸝⸝ ✧˚ ༘ ⋆｡♡˚ For you, from us 🤎🍂🧺</p>
+        <p>⸝⸝ ✧˚ ༘ ⋆｡♡˚ From us 🤎🍂🧺</p>
       </div>
 
     </>
