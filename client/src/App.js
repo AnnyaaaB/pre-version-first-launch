@@ -173,7 +173,7 @@ function App() {
         <h2>💌 Join Us</h2>
         <img src={require("./assets/joinus.png")} alt="Join Us" className="modal-image" />
         <p>Become a <strong>club member</strong> for free 💌</p>
-         <br />  Get ready for the launch of Autumn!
+         <br />  Your <strong>personal care planner</strong> always with you 🍪🎧
           
 
         
@@ -338,7 +338,7 @@ function App() {
           </div>
           <div className="journey-card">
             <img src={require("./assets/journey3.png")} alt="Journey 3" />
-            <p>🌞 Embrace challenges as opportunities for light.</p>
+            <p>☀️ Embrace challenges as opportunities for light.</p>
           </div>
           <div className="journey-card">
             <img src={require("./assets/journey4.png")} alt="Journey 4" />
