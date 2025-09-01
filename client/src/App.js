@@ -367,7 +367,7 @@ function App() {
       )}
 
       <div className="container">
-        <h1>Yours Truly ~ ˚ ༘ 🦕𖦹⋆｡˚</h1>
+        <h1>Yours Truly ~ 𐙚⋆°.⋆♡</h1>
 
         <div className="chat-box">
           {chatHistory.map((msg, i) => (
