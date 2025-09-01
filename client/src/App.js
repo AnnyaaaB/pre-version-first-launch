@@ -12,7 +12,10 @@ function App() {
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); 
-  const [modalContent, setModalContent] = useState(null); 
+  const [modalContent, setModalContent] = useState(null);
+  const [showCozy, setShowCozy] = useState(false);
+
+  
 
   const API_BASE = window.location.origin;
 
@@ -322,7 +325,7 @@ function App() {
     
 <li
   className="journey-link"
-  style={{ color: "#000", fontWeight: 600 }}   // 👈 force black text
+  style={{ color: "#000", fontWeight: 600 }}   // forcing black text
   onClick={() =>
     openModal(
       <div className="modal-section">
@@ -351,8 +354,6 @@ function App() {
 >
   🌠 Start Your Journey
 </li>
-
-
 
 
       {/* our Modal */}
@@ -401,6 +402,86 @@ function App() {
           {loading ? "I'm thinking..." : "Send"}
         </button>
       </div>
+
+
+{/*  Cozy Ideas Section */}
+<div className="cozy-ideas">
+  <h2 
+    onClick={() => setShowCozy(!showCozy)} 
+    style={{ cursor: "pointer" }}
+  >
+    🤎🍂🧸༄ Warm Delights {showCozy ? "▲" : "▼"}
+  </h2>
+  <p className="cozy-intro">
+    A little corner for you 🐝🌼🍯💛
+  </p>
+
+  {showCozy && (
+    <>
+      {/* Reading Section */}
+      <div className="cozy-category">
+        <h3>༄˖°..ೃ࿔📚* Reading</h3>
+        <p className="cozy-desc">
+          When the heart meets true words, it becomes nourished. Just as food strengthens the body, sound that uplifts strengthens the soul. ‧₊˚📚✩ ₊˚🎧⊹♡
+        </p>
+        <div className="cozy-gallery">
+          <img src={require("./assets/reading1.png")} alt="Reading 1" />
+          <img src={require("./assets/reading2.png")} alt="Reading 2" />
+          <img src={require("./assets/reading3.png")} alt="Reading 3" />
+          <img src={require("./assets/reading4.png")} alt="Reading 4" />
+        </div>
+      </div>
+
+      {/* Eating Section */}
+      <div className="cozy-category">
+        <h3>⟡𓌉◯𓇋₊˚⊹♡ Eating</h3>
+        <p className="cozy-desc">
+         To share a meal is not only to feed the body, but to offer warmth to another’s heart. In such moments, even the simplest food becomes sweet. ୧ ‧₊˚ 🥗🍎🌱🔆🍮 ⋅ ☆
+        </p>
+        <div className="cozy-gallery">
+          <img src={require("./assets/eating1.png")} alt="Eating 1" />
+          <img src={require("./assets/eating2.png")} alt="Eating 2" />
+          <img src={require("./assets/eating3.png")} alt="Eating 3" />
+          <img src={require("./assets/eating4.png")} alt="Eating 4" />
+        </div>
+      </div>
+
+      {/* Singing Section */}
+      <div className="cozy-category">
+        <h3>🎤✩⋆｡˚.★💿 Singing</h3>
+        <p className="cozy-desc">
+         Song is not ordinary sound — it carries life. When sung with sincerity, each note becomes a light, dispelling heaviness and awakening joy. ᵎᵎ( ๑˃̶ ꇴ ˂̶)♪ ⁺｡o
+        </p>
+        <div className="cozy-gallery">
+          <img src={require("./assets/singing1.png")} alt="Singing 1" />
+          <img src={require("./assets/singing2.png")} alt="Singing 2" />
+          <img src={require("./assets/singing3.png")} alt="Singing 3" />
+          <img src={require("./assets/singing4.png")} alt="Singing 4" />
+        </div>
+      </div>
+
+      {/* Associating Section */}
+      <div className="cozy-category">
+        <h3>🖤⃝🦋 Associating</h3>
+        <p className="cozy-desc">
+         Real company is not measured by how long we sit together, but by how much purity and happiness we share. Such exchanges remain as treasures within the heart. ‧₊˚ ☁️⋅♡🪐༘⋆
+        </p>
+        <div className="cozy-gallery">
+          <img src={require("./assets/friends1.png")} alt="Friends 1" />
+          <img src={require("./assets/friends2.png")} alt="Friends 2" />
+          <img src={require("./assets/friends3.png")} alt="Friends 3" />
+          <img src={require("./assets/friends4.png")} alt="Friends 4" />
+        </div>
+      </div>
+
+            {/* Signature Line */}
+      <div className="cozy-signature">
+        <p>⸝⸝ ✧˚ ༘ ⋆｡♡˚ For you, from us 🤎🍂🧺</p>
+      </div>
+
+    </>
+  )}
+</div>
 
        {/* our Footer */}
       <footer className="footer">
