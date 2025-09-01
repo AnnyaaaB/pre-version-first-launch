@@ -334,7 +334,7 @@ app.post("/connect", async (req, res) => {
 // ----------------- STATIC FRONTEND -----------------
 
 
-// Serve React build (output from client/)
+// Servin' React build (output from client/)
 app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Catch-all: send React index.html for any unknown route

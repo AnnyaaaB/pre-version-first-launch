@@ -1,4 +1,4 @@
-/* Dark overlay if you want text to stand out */
+/* Dark overlay for clear text */
 .background-overlay {
     position: fixed;
     top: 0;
@@ -228,7 +228,7 @@ button {
 .hamburger {
   position: fixed;
   top: 20px;
-  right: 20px; /* 👈 moved to right */
+  right: 20px; /*  moved to right */
   width: 30px;
   height: 22px;
   display: flex;
@@ -260,7 +260,7 @@ button {
 .side-menu {
   position: fixed;
   top: 0;
-  right: -250px; /* 👈 slides in from right now */
+  right: -250px; /*  slides in from right now */
   width: 250px;
   height: 100%;
   background: rgba(58, 35, 18, 0.95);
@@ -431,7 +431,7 @@ button {
 }
 
 
-/* ---------------- Responsive tweaks ---------------- */
+/* ---------------- Responsive tweaks for mobile screen ---------------- */
 
 /* Mobile (small screens: 0–600px) */
 @media (max-width: 600px) {
@@ -617,4 +617,15 @@ button {
 
 .waitlist-form button:hover {
   background: linear-gradient(135deg, #3a2312, #a66e59);
+}
+
+/* Footer styling */
+.footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(0,0,0,0.1);
+  margin-top: 20px;
 }

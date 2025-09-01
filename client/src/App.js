@@ -16,7 +16,7 @@ function App() {
 
   const API_BASE = window.location.origin;
 
-   // 🔹 Load waitlist count on first render
+   // Loading waitlist count on first render
   useEffect(() => {
     const loadWaitlistCount = async () => {
       try {
@@ -95,14 +95,14 @@ function App() {
         minHeight: "100vh",
       }}
     >
-      {/* 🔹 Hamburger Button */}
+      {/* Hamburger Button */}
       <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
         <div className={`bar ${menuOpen ? "open" : ""}`}></div>
         <div className={`bar ${menuOpen ? "open" : ""}`}></div>
         <div className={`bar ${menuOpen ? "open" : ""}`}></div>
       </div>
 
-      {/* 🔹 Side Menu */}
+      {/*  Side Menu */}
       <div className={`side-menu ${menuOpen ? "active" : ""}`}>
         <h2>☻ We for You</h2>
         <ul>
@@ -222,7 +222,7 @@ function App() {
         />
         <p>Be among the first to experience Autumn 🌟</p>
 
-        {/* Show live count */}
+        {/* Showin' live count */}
         <p>
           <strong>Already joined:</strong>{" "}
           <span id="waitlist-count">...</span> people 🎉
@@ -355,7 +355,7 @@ function App() {
 
 
 
-      {/* 🔹 Modal */}
+      {/* our Modal */}
       {modalContent && (
         <div className="modal-overlay" onClick={() => setModalContent(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -401,6 +401,12 @@ function App() {
           {loading ? "I'm thinking..." : "Send"}
         </button>
       </div>
+
+       {/* our Footer */}
+      <footer className="footer">
+        © 2025 AntrAI. All rights reserved.
+      </footer>
+
     </div>
   );
 }
