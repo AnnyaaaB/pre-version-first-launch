@@ -96,6 +96,7 @@ pre {
     overflow-y: auto;
 }
 
+/* ✅ Hide scrollbar but keep scrolling */
 body {
     font-family: 'Special Elite', monospace;
     background: linear-gradient(
@@ -107,6 +108,11 @@ body {
       #3a2312 100%  /* dark silhouette */
     );
     color: #fff5e1;
+    overflow-y: scroll;     /* keep scrolling */
+    scrollbar-width: none;  /* Firefox */
+}
+body::-webkit-scrollbar {
+    display: none;          /* Chrome, Safari */
 }
 
 .container {
@@ -224,21 +230,18 @@ button {
 }
 
 
-/* Hamburger button */
-.hamburger {
-  position: fixed;
-  top: 20px;
-  right: 20px; /*  moved to right */
+/* ✅ Integrated hamburger button inside sidebar */
+.hamburger-inside {
   width: 30px;
   height: 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  z-index: 1100;
+  margin-bottom: 20px;
 }
 
-.hamburger .bar {
+.hamburger-inside .bar {
   height: 4px;
   width: 100%;
   background-color: #fff5e1;
@@ -246,13 +249,13 @@ button {
   transition: all 0.3s ease;
 }
 
-.hamburger .bar.open:nth-child(1) {
+.hamburger-inside .bar.open:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
-.hamburger .bar.open:nth-child(2) {
+.hamburger-inside .bar.open:nth-child(2) {
   opacity: 0;
 }
-.hamburger .bar.open:nth-child(3) {
+.hamburger-inside .bar.open:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
@@ -298,6 +301,23 @@ button {
   color: #a66e59;
 }
 
+/* ✅ Ensure Start Your Journey item has no list-style and is black */
+.side-menu ul li.journey-link,
+.side-menu.active ul li.journey-link {
+  list-style: none;
+  color: #000 !important;  /* force black */
+  font-weight: 700;
+}
+
+.side-menu ul li.journey-link:hover {
+  color: #a66e59 !important; /* hover back to autumn orange */
+}
+
+/* Force Start Your Journey title inside modal */
+.modal-section h2 {
+  color: #000 !important;
+  font-weight: 700;
+}
 /* Modal */
 .modal-overlay {
   position: fixed;
@@ -738,4 +758,83 @@ button {
   font-size: clamp(1rem, 2.5vw, 1.1rem);
   color: #5a4634;
   opacity: 0.9;
+}
+
+/* Remove list-style and force black */
+.side-menu ul li.journey-link,
+.side-menu.active ul li.journey-link {
+  list-style: none !important;
+  color: #000 !important;
+  font-weight: 700;
+}
+.side-menu ul li.journey-link:hover {
+  color: #a66e59 !important; /* autumn orange on hover */
+}
+
+/*  Warm Delights styling */
+.cozy-ideas {
+  margin: 20px auto;
+  padding: 15px;
+  max-width: 700px;
+  background: rgba(255, 245, 225, 0.7);
+  border: 2px solid #a66e59;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.cozy-ideas h2 {
+  font-family: 'Unica One', sans-serif;
+  font-size: 1.5rem;
+  color: #a66e59;
+  margin-bottom: 10px;
+}
+
+.cozy-intro {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #3a2312;
+}
+
+.cozy-category {
+  margin-bottom: 20px;
+}
+
+.cozy-category h3 {
+  color: #3a2312;
+  margin-bottom: 6px;
+}
+
+.cozy-desc {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  color: #4a2d1d;
+}
+
+.cozy-gallery {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cozy-gallery img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #a66e59;
+}
+
+.cozy-signature {
+  margin-top: 15px;
+  font-style: italic;
+  text-align: center;
+  color: #3a2312;
+}
+
+/*  Mobile-first adjustment */
+@media (max-width: 480px) {
+  .cozy-gallery img {
+    flex: 1 1 45%;
+    max-width: 100px;
+  }
 }
