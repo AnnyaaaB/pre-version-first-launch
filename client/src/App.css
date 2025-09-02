@@ -838,3 +838,100 @@ button {
     max-width: 100px;
   }
 }
+
+/* 🎁 Cozy Gift Box (collapsed button) */
+.cozy-gift {
+  position: fixed;
+  bottom: 5vh; /* relative to screen height */
+  right: 5vw;  /* relative to screen width */
+  width: clamp(48px, 6vw, 70px); /* scales with screen size */
+  height: clamp(48px, 6vw, 70px);
+  background: linear-gradient(135deg, #a66e59, #3a2312);
+  border-radius: 20%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1200;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cozy-gift:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+
+.cozy-gift span {
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  color: #fff5e1;
+}
+
+/* 🎁 Expanded Cozy Ideas Modal */
+.cozy-modal {
+  position: fixed;
+  bottom: clamp(70px, 10vh, 120px); /* adaptive gap above chat input */
+  right: 5vw;
+  width: 90%;
+  max-width: 420px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  padding: clamp(12px, 2vw, 20px);
+  z-index: 1300;
+  animation: fadeInUp 0.3s ease;
+}
+
+/* Slide-up animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Close button */
+.cozy-modal .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  cursor: pointer;
+  color: #a66e59;
+  z-index: 1400;
+}
+
+/* 📱 Small devices */
+@media (max-width: 480px) {
+  .cozy-modal {
+    right: 5%;
+    width: 90%;
+    max-width: none; /* take full width on tiny screens */
+    bottom: 80px; /* avoid overlapping bottom UI */
+  }
+}
+
+/* 💻 Tablets (landscape & portrait) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .cozy-modal {
+    right: 8vw;
+    max-width: 500px;
+    max-height: 75vh;
+  }
+}
+
+/* 🖥️ Large desktops */
+@media (min-width: 1280px) {
+  .cozy-modal {
+    right: 10vw;
+    max-width: 450px;
+  }
+}
