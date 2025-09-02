@@ -935,3 +935,7 @@ button {
     max-width: 450px;
   }
 }
+
+li {
+  list-style: none;
+}
