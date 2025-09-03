@@ -633,7 +633,7 @@ Let’s treasure these moments together ♡ ~ With love, AntrAI 🤎🍂🧺🦦
 
 {showReflectionConsent && !wantsReflections && (
   <div className="reflection-consent">
-    <p>(˶ᵔ ᵕ ᵔ˶) Heyya, would you like me to share reflections with you quite often?</p>
+    <p>(≧ヮ≦) 💕 Heyya, would you like me to share reflections with you quite often?</p>
     <button onClick={handleAcceptReflection}>Yes</button>
     <button onClick={handleDeclineReflection}>Not now</button>
   </div>
@@ -643,7 +643,7 @@ Let’s treasure these moments together ♡ ~ With love, AntrAI 🤎🍂🧺🦦
 {/* Preferences Form */}
 {wantsReflections && (
   <div className="preferences-form">
-    <h3>⸜(｡˃ ᵕ ˂ )⸝♡ Help me get a glimpse of you</h3>
+    <h3>⋆.˚✮🎧✮˚.⋆ Help me get a glimpse of you</h3>
     <form
       onSubmit={(e) => {
         e.preventDefault();
