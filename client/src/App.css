@@ -1076,45 +1076,45 @@ li {
   z-index: 1; /* ensure messages are above overlay */
 }
 
-/* ----------  Mobile Screens ---------- */
+/* ---------- 📱 Mobile Screens ---------- */
 @media (max-width: 600px) {
   .container {
     margin: 10px auto;
-    padding: 12px;
+    padding: 10px;
     max-width: 95%;
   }
 
   .chat-box {
-    height: 40vh;   /* smaller for phones */
-    max-height: 50vh;
-    padding: 8px;
+    height: 25vh;   /* much smaller for phones */
+    max-height: 30vh;
+    padding: 6px;
   }
 
   h1 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     text-align: center;
   }
 }
 
-/* ----------  Tablets (portrait & landscape) ---------- */
+/* ---------- 📱 Tablets (portrait & landscape) ---------- */
 @media (min-width: 601px) and (max-width: 1024px) {
   .container {
-    max-width: 85%;
-    padding: 16px;
+    max-width: 80%;
+    padding: 14px;
   }
 
   .chat-box {
-    height: 45vh;  /* balanced size */
-    max-height: 55vh;
+    height: 30vh;  /* reduced size */
+    max-height: 35vh;
   }
 
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     text-align: center;
   }
 }
 
-/* ----------  Desktop screens ---------- */
+/* ---------- 🖥️ Desktop screens ---------- */
 @media (min-width: 1025px) {
   .container {
     max-width: 700px;
@@ -1122,7 +1122,7 @@ li {
   }
 
   .chat-box {
-    height: 55vh;  /* taller but not full height */
-    max-height: 65vh;
+    height: 40vh;  /* balanced, not full height */
+    max-height: 45vh;
   }
 }
