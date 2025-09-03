@@ -11,13 +11,22 @@ function App() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false); 
   const [modalContent, setModalContent] = useState(null);
   const [showCozy, setShowCozy] = useState(false);
+ 
 
   
 
   const API_BASE = window.location.origin;
+
+    // Show splash for 4 seconds when app loads
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
 
    // Loading waitlist count on first render
   useEffect(() => {
@@ -34,7 +43,10 @@ function App() {
     loadWaitlistCount();
   }, [API_BASE]);
 
-  
+    useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 4000); // show splash 4s
+    return () => clearTimeout(timer);
+  }, []);
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -100,6 +112,18 @@ function App() {
         minHeight: "100vh",
       }}
     >
+ {/* Splash Screen (separate from chat loading) */}
+      {showSplash && (
+        <div className="splash-screen">
+          <div className="splash-text">loading...</div>
+        </div>
+      )}
+
+      <div className="App">
+        {/* your app content here */}
+      </div>
+
+        
     {/* Sidebar with integrated hamburger */}
 <div className={`side-menu ${menuOpen ? "active" : ""}`}>
   {/* Hamburger inside the sidebar */}
