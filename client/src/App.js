@@ -6,6 +6,9 @@ import autumnProfile from "./assets/autumnProfile.png";
 import logo from "./assets/logo.png";          
 import teamImg from "./assets/team.png";       
 import autumnHero from "./assets/autumn.png"; 
+import morningWall from "./assets/wall_morning.png";
+import afternoonWall from "./assets/wall_afternoon.png";
+import nightWall from "./assets/wall_night.png";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -15,6 +18,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false); 
   const [modalContent, setModalContent] = useState(null);
   const [showCozy, setShowCozy] = useState(false);
+  const [wallpaper, setWallpaper] = useState(morningWall);
  
 
   
@@ -27,6 +31,17 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Pick wallpaper based on time
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 12) {
+      setWallpaper(morningWall); // 🌅 Morning
+    } else if (hour >= 12 && hour < 18) {
+      setWallpaper(afternoonWall); // 🌞 Afternoon
+    } else {
+      setWallpaper(nightWall); // 🌙 Night
+    }
+  }, []);
 
    // Loading waitlist count on first render
   useEffect(() => {
@@ -474,46 +489,47 @@ function App() {
         </div>
       )}
 
+
+{/* Chat container */}
       <div className="container">
-  <h1>Yours Truly ~ 𐀪𐀪</h1>
+        <h1>Yours Truly ~ 𐀪𐀪</h1>
 
-  {/* Chat space with wallpaper */}
-  <div className="chat-box wallpaper">
-    {chatHistory.map((msg, i) => (
-      <div key={i} className={`chat-message-wrapper ${msg.role}`}>
-        <img
-          src={msg.role === "user" ? userProfile : autumnProfile}
-          alt={msg.role}
-          className="profile-pic"
-        />
-        <div className={`chat-message ${msg.role}`}>
-          <p dangerouslySetInnerHTML={{ __html: msg.content }} />
-          {msg.role === "assistant" && (
-            <div className="feedback-buttons">
-              <button onClick={() => sendFeedback("good", i)}>👍</button>
-              <button onClick={() => sendFeedback("bad", i)}>👎</button>
+        <div
+          className="chat-box wallpaper"
+          style={{ backgroundImage: `url(${wallpaper})` }} // 👈 dynamic wallpaper
+        >
+          {chatHistory.map((msg, i) => (
+            <div key={i} className={`chat-message-wrapper ${msg.role}`}>
+              <img
+                src={msg.role === "user" ? userProfile : autumnProfile}
+                alt={msg.role}
+                className="profile-pic"
+              />
+              <div className={`chat-message ${msg.role}`}>
+                <p dangerouslySetInnerHTML={{ __html: msg.content }} />
+                {msg.role === "assistant" && (
+                  <div className="feedback-buttons">
+                    <button onClick={() => sendFeedback("good", i)}>👍</button>
+                    <button onClick={() => sendFeedback("bad", i)}>👎</button>
+                  </div>
+                )}
+              </div>
             </div>
-          )}
+          ))}
         </div>
+
+        <textarea
+          rows="3"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Talk to Autumn..."
+          disabled={loading}
+        />
+        <br />
+        <button onClick={sendMessage} disabled={loading}>
+          {loading ? "I'm thinking..." : "Send"}
+        </button>
       </div>
-    ))}
-  </div>
-
-  <textarea
-    rows="3"
-    value={message}
-    onChange={(e) => setMessage(e.target.value)}
-    placeholder="Talk to Autumn..."
-    disabled={loading}
-  />
-  <br />
-  <button onClick={sendMessage} disabled={loading}>
-    {loading ? "I'm thinking..." : "Send"}
-  </button>
-</div>
-
-
-
 
        {/* our Footer */}
       <footer className="footer">
