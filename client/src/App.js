@@ -24,9 +24,20 @@ function App() {
 
  
 
-  
-
   const API_BASE = window.location.origin;
+
+  // Load saved chats on startup
+useEffect(() => {
+  const saved = localStorage.getItem("chatHistory");
+  if (saved) setChatHistory(JSON.parse(saved));
+}, []);
+
+// Save chats whenever updated
+useEffect(() => {
+  if (chatHistory.length > 0) {
+    localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+  }
+}, [chatHistory]);
 
     // Showin' splash for 4 seconds when app loads
   useEffect(() => {
@@ -152,6 +163,45 @@ function App() {
   </div>
         <h2>☻ We for You</h2>
         <ul>
+          
+          <li
+  onClick={() =>
+    openModal(
+      <div className="modal-section saved-chats">
+        <h2>💾 Saved Chats</h2>
+        {chatHistory.length === 0 ? (
+          <p>No chats yet. Start talking with Autumn 🌿</p>
+        ) : (
+          <div className="saved-chat-list">
+            {chatHistory.map((msg, i) => (
+              <div key={i} className={`chat-message-preview ${msg.role}`}>
+                <strong>{msg.role === "user" ? "You" : "Autumn"}:</strong>{" "}
+                {msg.content.slice(0, 80)}...
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Delete button */}
+        <button
+          className="clear-chat-btn"
+          onClick={() => {
+            if (window.confirm("🗑️ Clear all saved chats?")) {
+              setChatHistory([]);
+              localStorage.removeItem("chatHistory");
+            }
+          }}
+        >
+          Clear All Chats
+        </button>
+      </div>
+    )
+  }
+>
+  ❄️ Saved Chats
+</li>
+
+
           <li
             onClick={() =>
               openModal(
