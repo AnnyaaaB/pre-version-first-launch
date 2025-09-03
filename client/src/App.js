@@ -19,6 +19,8 @@ function App() {
   const [modalContent, setModalContent] = useState(null);
   const [showCozy, setShowCozy] = useState(false);
   const [wallpaper, setWallpaper] = useState(morningWall);
+  const [isExpandedChat, setIsExpandedChat] = useState(false);
+
  
 
   
@@ -498,6 +500,15 @@ function App() {
           className="chat-box wallpaper"
           style={{ backgroundImage: `url(${wallpaper})` }} // 👈 dynamic wallpaper
         >
+            {/* Expand/Collapse toggle */}
+  <button 
+    className="chat-toggle-btn"
+    onClick={() => setIsExpandedChat(!isExpandedChat)}
+  >
+    {isExpandedChat ? "⇱ Shrink" : "⇲ Expand"}
+  </button>
+
+
           {chatHistory.map((msg, i) => (
             <div key={i} className={`chat-message-wrapper ${msg.role}`}>
               <img

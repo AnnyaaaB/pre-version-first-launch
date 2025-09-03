@@ -1204,3 +1204,28 @@ li {
     padding: 12px;
   }
 }
+
+/* Chat toggle button */
+.chat-toggle-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.chat-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Expanded chat mode */
+.chat-box.expanded {
+  height: 80vh !important;   /* much bigger */
+  max-height: 85vh !important;
+}
