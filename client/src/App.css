@@ -1086,8 +1086,8 @@ li {
   }
 
   .chat-box {
-    height: 15vh;   /* much smaller for phones */
-    max-height: 20vh;
+    height: 10vh;   /* much smaller for phones */
+    max-height: 15vh;
     padding: 6px;
   }
 
