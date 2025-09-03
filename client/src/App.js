@@ -21,7 +21,7 @@ function App() {
 
   const API_BASE = window.location.origin;
 
-    // Show splash for 4 seconds when app loads
+    // Showin' splash for 4 seconds when app loads
   useEffect(() => {
     const timer = setTimeout(() => setShowSplash(false), 4000);
     return () => clearTimeout(timer);
@@ -475,41 +475,43 @@ function App() {
       )}
 
       <div className="container">
-        <h1>Yours Truly ~ 𐀪𐀪</h1>
+  <h1>Yours Truly ~ 𐀪𐀪</h1>
 
-        <div className="chat-box">
-          {chatHistory.map((msg, i) => (
-            <div key={i} className={`chat-message-wrapper ${msg.role}`}>
-              <img
-                src={msg.role === "user" ? userProfile : autumnProfile}
-                alt={msg.role}
-                className="profile-pic"
-              />
-              <div className={`chat-message ${msg.role}`}>
-                <p dangerouslySetInnerHTML={{ __html: msg.content }} />
-                {msg.role === "assistant" && (
-                  <div className="feedback-buttons">
-                    <button onClick={() => sendFeedback("good", i)}>👍</button>
-                    <button onClick={() => sendFeedback("bad", i)}>👎</button>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <textarea
-          rows="3"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Talk to Autumn..."
-          disabled={loading}
+  {/* Chat space with wallpaper */}
+  <div className="chat-box wallpaper">
+    {chatHistory.map((msg, i) => (
+      <div key={i} className={`chat-message-wrapper ${msg.role}`}>
+        <img
+          src={msg.role === "user" ? userProfile : autumnProfile}
+          alt={msg.role}
+          className="profile-pic"
         />
-        <br />
-        <button onClick={sendMessage} disabled={loading}>
-          {loading ? "I'm thinking..." : "Send"}
-        </button>
+        <div className={`chat-message ${msg.role}`}>
+          <p dangerouslySetInnerHTML={{ __html: msg.content }} />
+          {msg.role === "assistant" && (
+            <div className="feedback-buttons">
+              <button onClick={() => sendFeedback("good", i)}>👍</button>
+              <button onClick={() => sendFeedback("bad", i)}>👎</button>
+            </div>
+          )}
+        </div>
       </div>
+    ))}
+  </div>
+
+  <textarea
+    rows="3"
+    value={message}
+    onChange={(e) => setMessage(e.target.value)}
+    placeholder="Talk to Autumn..."
+    disabled={loading}
+  />
+  <br />
+  <button onClick={sendMessage} disabled={loading}>
+    {loading ? "I'm thinking..." : "Send"}
+  </button>
+</div>
+
 
 
 
