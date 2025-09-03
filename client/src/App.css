@@ -1377,13 +1377,13 @@ li {
 
 /* Autumn messages (left side) */
 .chat-message.autumn {
-  background: #fff8f0; /* soft peachy beige */
-  color: #3a2312;      /* deep brown, readable */
+  background: #d7bfa6;   /* light brown bubble */
+  color: #000000;        /* pure black text */
   align-self: flex-start;
-  border: 1px solid #e5d0b5;
+  border: 1px solid #b89c7a;
 }
 
-/* Optional: add subtle shadow for better contrast */
+/* subtle shadow for better contrast */
 .chat-message.user,
 .chat-message.autumn {
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
