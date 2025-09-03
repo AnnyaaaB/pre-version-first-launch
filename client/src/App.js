@@ -414,7 +414,7 @@ function App() {
 
     <div className="cozy-ideas">
       <h2>🤎🍂🧸༄ Warm Delights</h2>
-      <p className="cozy-intro">A little corner, For you 🐝🌼🍯💛</p>
+      <p className="cozy-intro">A little corner, For You 🐝🌼🍯💛</p>
 
       {/* Reading Section */}
       <div className="cozy-category">
@@ -474,8 +474,9 @@ function App() {
 
       {/* Signature Line */}
       <div className="cozy-signature">
-        <p>⸝⸝ ✧˚ ༘ ⋆｡♡˚ RESA <strong>(Read, Eat, Sing, Associate)</strong> — life’s sweetest ritual. Let’s cherish it together. 
-                ~ With love, From AntrAI 🤎🍂🧺🦦ྀི</p>
+       <p>✦ RESA <strong>(Read · Eat · Sing · Associate)</strong> — a cozy rhythm of the heart.  
+Let’s treasure these moments together ♡ ~ With love, AntrAI 🤎🍂🧺🦦</p>
+
       </div>
     </div>
   </div>
