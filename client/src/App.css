@@ -1077,7 +1077,7 @@ li {
   z-index: 1; /* ensure messages are above overlay */
 }
 
-/* ---------- 📱 Mobile Screens ---------- */
+/* ----------  Mobile Screens ---------- */
 @media (max-width: 600px) {
   .container {
     margin: 10px auto;
@@ -1086,8 +1086,8 @@ li {
   }
 
   .chat-box {
-    height: 10vh;   /* much smaller for phones */
-    max-height: 15vh;
+    height: 5vh;   /* much smaller for phones */
+    max-height: 10vh;
     padding: 6px;
   }
 
@@ -1097,7 +1097,7 @@ li {
   }
 }
 
-/* ---------- 📱 Tablets (portrait & landscape) ---------- */
+/* ---------- Tablets (portrait & landscape) ---------- */
 @media (min-width: 601px) and (max-width: 1024px) {
   .container {
     max-width: 80%;
@@ -1115,7 +1115,7 @@ li {
   }
 }
 
-/* ---------- 🖥️ Desktop screens ---------- */
+/* ----------  Desktop screens ---------- */
 @media (min-width: 1025px) {
   .container {
     max-width: 700px;
