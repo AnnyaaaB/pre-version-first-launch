@@ -1355,3 +1355,36 @@ li {
   cursor: not-allowed;
   box-shadow: none;
 }
+
+/* General message wrapper */
+.chat-message {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  margin: 6px 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+/* User messages (right side) */
+.chat-message.user {
+  background: #fdf5e6; /* warm cream */
+  color: #2c1a10;      /* dark brown for readability */
+  align-self: flex-end;
+  border: 1px solid #e0cba8;
+}
+
+/* Autumn messages (left side) */
+.chat-message.autumn {
+  background: #fff8f0; /* soft peachy beige */
+  color: #3a2312;      /* deep brown, readable */
+  align-self: flex-start;
+  border: 1px solid #e5d0b5;
+}
+
+/* Optional: add subtle shadow for better contrast */
+.chat-message.user,
+.chat-message.autumn {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
