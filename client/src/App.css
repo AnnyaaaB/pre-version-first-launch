@@ -190,12 +190,6 @@ button {
     color: #3a2312;
 }
 
-.chat-message {
-  background: rgba(149, 102, 85, 0.5); /* soft autumn brown */
-  padding: 10px 15px;
-  margin: 8px 0;
-  border-radius: 12px;
-}
 
 .chat-message.user {
   background: rgba(164, 110, 89, 0.7); /* sunset orange */
@@ -230,7 +224,7 @@ button {
 }
 
 
-/* ✅ Integrated hamburger button inside sidebar */
+/*  Integrated hamburger button inside sidebar */
 .hamburger-inside {
   width: 30px;
   height: 22px;
@@ -301,7 +295,7 @@ button {
   color: #a66e59;
 }
 
-/* ✅ Ensure Start Your Journey item has no list-style and is black */
+/*  Ensure Start Your Journey item has no list-style and is black */
 .side-menu ul li.journey-link,
 .side-menu.active ul li.journey-link {
   list-style: none;
@@ -650,7 +644,7 @@ button {
   margin-top: 20px;
 }
 
-/* 🌸 Cozy Ideas Section */
+/*  Cozy Ideas Section */
 .cozy-ideas {
   margin: 40px auto;
   padding: 20px;
@@ -734,7 +728,7 @@ button {
   }
 }
 
-/* 📱 Extra Small Devices */
+/*  Extra Small Devices */
 @media (max-width: 400px) {
   .cozy-gallery {
     grid-template-columns: 1fr; /* one image per row */
@@ -839,7 +833,7 @@ button {
   }
 }
 
-/* 🎁 Cozy Gift Box (collapsed button) */
+/*  Cozy Gift Box (collapsed button) */
 .cozy-gift {
   position: fixed;
   bottom: 5vh; /* relative to screen height */
@@ -867,7 +861,7 @@ button {
   color: #fff5e1;
 }
 
-/* 🎁 Expanded Cozy Ideas Modal */
+/* Expanded Cozy Ideas Modal */
 .cozy-modal {
   position: fixed;
   bottom: clamp(70px, 10vh, 120px); /* adaptive gap above chat input */
@@ -909,7 +903,7 @@ button {
   z-index: 1400;
 }
 
-/* 📱 Small devices */
+/*  Small devices */
 @media (max-width: 480px) {
   .cozy-modal {
     right: 5%;
@@ -919,7 +913,7 @@ button {
   }
 }
 
-/* 💻 Tablets (landscape & portrait) */
+/*  Tablets (landscape & portrait) */
 @media (min-width: 768px) and (max-width: 1024px) {
   .cozy-modal {
     right: 8vw;
@@ -928,7 +922,7 @@ button {
   }
 }
 
-/* 🖥️ Large desktops */
+/* Large desktops */
 @media (min-width: 1280px) {
   .cozy-modal {
     right: 10vw;
@@ -1375,16 +1369,27 @@ li {
   border: 1px solid #e0cba8;
 }
 
-/* Autumn messages (left side) */
-.chat-message.autumn {
-  background: #d7bfa6;   /* light brown bubble */
-  color: #000000;        /* pure black text */
-  align-self: flex-start;
-  border: 1px solid #b89c7a;
-}
-
 /* subtle shadow for better contrast */
 .chat-message.user,
 .chat-message.autumn {
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* Style Autumn's (assistant) messages */
+.chat-message.assistant {
+  background: #f5f5f5;       /* soft warm bubble */
+  color: #2c2c2c !important; /* readable dark text */
+  border-radius: 12px;
+  padding: 10px 14px;
+  max-width: 70%;
+  align-self: flex-start;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* Make sure the <p> also inherits the color */
+.chat-message.assistant p {
+  color: #2c2c2c !important;
+  margin: 0;
 }
