@@ -19,7 +19,8 @@ function App() {
   const [modalContent, setModalContent] = useState(null);
   const [showCozy, setShowCozy] = useState(false);
   const [wallpaper, setWallpaper] = useState(morningWall);
-  const [isExpandedChat, setIsExpandedChat] = useState(false);
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+
 
  
 
@@ -491,56 +492,93 @@ function App() {
         </div>
       )}
 
+      {/* Chat container */}
+<div className="container">
+  <h1>Yours Truly ~ 𐀪𐀪</h1>
 
-{/* Chat container */}
-      <div className="container">
-        <h1>Yours Truly ~ 𐀪𐀪</h1>
+  {/* Small chat box */}
+  <div className="chat-box wallpaper" style={{ backgroundImage: `url(${wallpaper})` }}>
+    <button 
+      className="chat-toggle-btn"
+      onClick={() => setIsChatModalOpen(true)}
+    >
+      ⇲ Expand
+    </button>
 
-        <div
-          className="chat-box wallpaper"
-          style={{ backgroundImage: `url(${wallpaper})` }} // 👈 dynamic wallpaper
-        >
-            {/* Expand/Collapse toggle */}
-  <button 
-    className="chat-toggle-btn"
-    onClick={() => setIsExpandedChat(!isExpandedChat)}
-  >
-    {isExpandedChat ? "⇱ Shrink" : "⇲ Expand"}
-  </button>
-
-
-          {chatHistory.map((msg, i) => (
-            <div key={i} className={`chat-message-wrapper ${msg.role}`}>
-              <img
-                src={msg.role === "user" ? userProfile : autumnProfile}
-                alt={msg.role}
-                className="profile-pic"
-              />
-              <div className={`chat-message ${msg.role}`}>
-                <p dangerouslySetInnerHTML={{ __html: msg.content }} />
-                {msg.role === "assistant" && (
-                  <div className="feedback-buttons">
-                    <button onClick={() => sendFeedback("good", i)}>👍</button>
-                    <button onClick={() => sendFeedback("bad", i)}>👎</button>
-                  </div>
-                )}
-              </div>
+    {chatHistory.map((msg, i) => (
+      <div key={i} className={`chat-message-wrapper ${msg.role}`}>
+        <img
+          src={msg.role === "user" ? userProfile : autumnProfile}
+          alt={msg.role}
+          className="profile-pic"
+        />
+        <div className={`chat-message ${msg.role}`}>
+          <p dangerouslySetInnerHTML={{ __html: msg.content }} />
+          {msg.role === "assistant" && (
+            <div className="feedback-buttons">
+              <button onClick={() => sendFeedback("good", i)}>👍</button>
+              <button onClick={() => sendFeedback("bad", i)}>👎</button>
             </div>
-          ))}
+          )}
         </div>
+      </div>
+    ))}
+  </div>
+</div>
 
+{/* Full-screen modal when expanded */}
+{isChatModalOpen && (
+  <div className="chat-modal-overlay">
+    <div
+      className="chat-modal wallpaper"
+      style={{ backgroundImage: `url(${wallpaper})` }}
+    >
+      <button
+        className="chat-close-btn"
+        onClick={() => setIsChatModalOpen(false)}
+      >
+        ⇱ Shrink
+      </button>
+
+    {/* Scrollable messages */}
+      <div className="chat-messages">
+        {chatHistory.map((msg, i) => (
+          <div key={i} className={`chat-message-wrapper ${msg.role}`}>
+            <img
+              src={msg.role === "user" ? userProfile : autumnProfile}
+              alt={msg.role}
+              className="profile-pic"
+            />
+            <div className={`chat-message ${msg.role}`}>
+              <p dangerouslySetInnerHTML={{ __html: msg.content }} />
+              {msg.role === "assistant" && (
+                <div className="feedback-buttons">
+                  <button onClick={() => sendFeedback("good", i)}>👍</button>
+                  <button onClick={() => sendFeedback("bad", i)}>👎</button>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+     {/* Input area (sticks to bottom) */}
+      <div className="chat-input">
         <textarea
-          rows="3"
+          rows="2"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Talk to Autumn..."
           disabled={loading}
         />
-        <br />
         <button onClick={sendMessage} disabled={loading}>
           {loading ? "I'm thinking..." : "Send"}
         </button>
-      </div>
+        </div>
+    </div>
+  </div>
+)}
+
 
        {/* our Footer */}
       <footer className="footer">
