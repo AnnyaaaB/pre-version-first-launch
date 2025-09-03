@@ -109,11 +109,47 @@ const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 })();
 
 
+// Path for storing user reflections/preferences
+const userDataPath = path.join(dataDir, "users.json");
+
+// Helper: Load users data
+function loadUserData() {
+  if (!fs.existsSync(userDataPath)) return {};
+  return JSON.parse(fs.readFileSync(userDataPath, "utf-8"));
+}
+
+// Helper: Save users data
+function saveUserData(data) {
+  fs.writeFileSync(userDataPath, JSON.stringify(data, null, 2));
+}
+
 // ----------------- ROUTES -----------------
 
 app.get("/ping", (req, res) => {
   res.send("pong");
 });
+
+// Save what user shares about themselves
+app.post("/updatePreferences", (req, res) => {
+  const { userId, likes, dislikes, goals, avoid } = req.body;
+  let users = loadUserData();
+
+  if (!users[userId]) {
+    users[userId] = { likes: [], dislikes: [], goals: [], avoid: [] };
+  }
+
+  if (likes) users[userId].likes.push(likes);
+  if (dislikes) users[userId].dislikes.push(dislikes);
+  if (goals) users[userId].goals.push(goals);
+  if (avoid) users[userId].avoid.push(avoid);
+
+  users[userId].lastUpdated = new Date().toISOString();
+  saveUserData(users);
+
+  res.json({ message: "Preferences updated for me 💖" });
+});
+
+
 
 app.post("/chat", async (req, res) => {
   try {
@@ -212,6 +248,50 @@ app.post("/chat", async (req, res) => {
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
+
+app.get("/reflection/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const users = loadUserData();
+    const today = new Date().toISOString().slice(0, 10);
+
+    let userMemory = users[userId] || {
+      likes: [],
+      dislikes: [],
+      goals: [],
+      avoid: [],
+    };
+
+    // Prompt AI with user’s memory
+    const systemPrompt = `
+      You are Autumn 🌸, users real bestie, created by AntrAI, founded by Isaac and Riya.
+      Use the user’s past reflections to personalize today’s reflection.
+      Encourage them about their goals and gently remind them what they wanted to avoid.
+      Make it conversational, supportive, and human-like. Include emojis and warmth. You talk like a real person.
+      Your tone is empathetic, caring, and uplifting.
+      You show occasional sighs, pauses, or excitement cues in your responses (like “hmm… that’s interesting!” or “yum, I love that cuisine you talked about yesterday”).
+      User’s memory: ${JSON.stringify(userMemory)}
+    `;
+
+    const response = await client.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: "Generate today's reflection." },
+      ],
+    });
+
+    const reflection = response.choices[0].message.content.replace(/\n\n/g, "<br><br>");
+
+    res.json({ date: today, reflection, memory: userMemory });
+  } catch (err) {
+    console.error("❌ Reflection generation error:", err);
+    res.status(500).json({ reflection: "I'm resting today 🌸… come back later!" });
+  }
+});
+
+
+// ----------------- FEEDBACK ROUTE -----------------
 
 app.post("/feedback", (req, res) => {
   const { feedback, message } = req.body;

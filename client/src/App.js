@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import bgImage from "./assets/bg.png"; 
@@ -20,11 +21,52 @@ function App() {
   const [showCozy, setShowCozy] = useState(false);
   const [wallpaper, setWallpaper] = useState(morningWall);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+  const [wantsReflections, setWantsReflections] = useState(false);
+  const [userId] = useState("demoUser123"); // replace with real user later
+  const [showReflectionConsent, setShowReflectionConsent] = useState(true);
 
 
  
 
+
   const API_BASE = window.location.origin;
+
+  // NEW: fetch daily reflection
+  const fetchReflection = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/reflection/${userId}`);
+      const data = await res.json();
+
+      const aiReply = {
+        role: "assistant",
+        content: data.reflection || "🌸 Autumn is quiet today..."
+      };
+
+      setChatHistory((prev) => [...prev, aiReply]);
+    } catch (err) {
+      console.error("Reflection error:", err);
+    }
+  };
+
+  // NEW: send preferences to Autumn
+  const sendPreferences = async (prefs) => {
+    try {
+      await fetch(`${API_BASE}/updatePreferences`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, ...prefs }),
+      });
+    } catch (err) {
+      console.error("Preferences error:", err);
+    }
+  };
+
+  // On first load, if user agreed, fetch reflection
+  useEffect(() => {
+    if (wantsReflections) {
+      fetchReflection();
+    }
+  }, [wantsReflections]);
 
   // Load saved chats on startup
 useEffect(() => {
@@ -124,6 +166,52 @@ useEffect(() => {
       console.error("Feedback error:", err);
     }
   };
+
+  // When user clicks Yes
+const handleAcceptReflection = () => {
+  localStorage.setItem("wantsReflections", "true");
+  setWantsReflections(true);
+  setShowReflectionConsent(false); 
+};
+
+// When user clicks Not Now
+const handleDeclineReflection = () => {
+  localStorage.setItem("wantsReflections", "false");
+  setShowReflectionConsent(false);
+};
+
+
+// Figure out the current time slot
+const getTimeSlot = () => {
+  const hour = new Date().getHours();
+  if (hour >= 6 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 18) return "afternoon";
+  if (hour >= 18 && hour < 22) return "evening";
+  return "night";
+};
+
+// Polling: Autumn sends reflection 4 times a day
+useEffect(() => {
+  if (!wantsReflections) return;
+
+  const checkReflection = async () => {
+    const slot = getTimeSlot();
+    const lastSlot = localStorage.getItem("lastReflectionSlot");
+
+    if (lastSlot !== slot) {
+      await fetchReflection();
+      localStorage.setItem("lastReflectionSlot", slot);
+    }
+  };
+
+  // Check immediately on load
+  checkReflection();
+
+  // Check every 30 minutes
+  const interval = setInterval(checkReflection, 1000 * 60 * 30);
+  return () => clearInterval(interval);
+}, [wantsReflections]);
+
 
   const openModal = (content) => {
     setModalContent(content);
@@ -542,6 +630,46 @@ Let’s treasure these moments together ♡ ~ With love, AntrAI 🤎🍂🧺🦦
           </div>
         </div>
       )}
+
+{showReflectionConsent && !wantsReflections && (
+  <div className="reflection-consent">
+    <p>(˶ᵔ ᵕ ᵔ˶) Heyya, would you like me to share reflections with you quite often?</p>
+    <button onClick={handleAcceptReflection}>Yes</button>
+    <button onClick={handleDeclineReflection}>Not now</button>
+  </div>
+)}
+
+
+{/* Preferences Form */}
+{wantsReflections && (
+  <div className="preferences-form">
+    <h3>⸜(｡˃ ᵕ ˂ )⸝♡ Help me get a glimpse of you</h3>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        const likes = e.target.likes.value;
+        const goals = e.target.goals.value;
+        const avoid = e.target.avoid.value;
+        const dislikes = e.target.dislikes.value;
+
+        sendPreferences({ likes, goals, avoid, dislikes });
+        e.target.reset();
+        alert("✨ Autumn remembers this!");
+
+setShowReflectionConsent(false);
+setWantsReflections(false);
+
+      }}
+    >
+      <input type="text" name="likes" placeholder="I like..." />
+      <input type="text" name="dislikes" placeholder="I dislike..." />
+      <input type="text" name="goals" placeholder="My goal is..." />
+      <input type="text" name="avoid" placeholder="I want to avoid..." />
+      <button type="submit">Save 🦋</button>
+    </form>
+  </div>
+)}
+
 
       {/* Chat container */}
 <div className="container">

@@ -1439,3 +1439,145 @@ li {
 .clear-chat-btn:hover {
   background: #dc2626;
 }
+
+/* Reflection Consent */
+.reflection-consent {
+  background: linear-gradient(135deg, #fff7f0, #ffe9e0);
+  border: 2px solid #f7c8a0;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  text-align: center;
+  max-width: 480px;
+  box-shadow: 0 6px 14px rgba(255, 182, 140, 0.25);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.reflection-consent p {
+  font-size: 1.1rem;
+  color: #5a3a2e;
+  margin-bottom: 1rem;
+}
+
+.reflection-consent button {
+  background: #ffb997;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.6rem 1.2rem;
+  margin: 0.4rem;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.reflection-consent button:hover {
+  transform: scale(1.05);
+  background: #ff9c70;
+}
+
+/* Preferences Form */
+.preferences-form {
+  background: linear-gradient(135deg, #fdf5e6, #ffeef6);
+  border: 2px solid #f3c1d3;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(243, 193, 211, 0.25);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.preferences-form h3 {
+  font-size: 1.2rem;
+  color: #59344f;
+  margin-bottom: 1rem;
+}
+
+.preferences-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.preferences-form input {
+  padding: 0.6rem 1rem;
+  border: 1.8px solid #f3c1d3;
+  border-radius: 1rem;
+  outline: none;
+  font-size: 1rem;
+  background: #fffdfb;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.preferences-form input:focus {
+  border-color: #f79ac0;
+  box-shadow: 0 0 6px rgba(247, 154, 192, 0.4);
+}
+
+.preferences-form button {
+  background: #f79ac0;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  color: white;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.preferences-form button:hover {
+  transform: scale(1.05);
+  background: #f16b99;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile (default small size) */
+@media (max-width: 480px) {
+  .reflection-consent,
+  .preferences-form {
+    max-width: 90%;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .reflection-consent p,
+  .preferences-form h3 {
+    font-size: 1rem;
+  }
+
+  .reflection-consent button,
+  .preferences-form button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .preferences-form input {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+  .reflection-consent,
+  .preferences-form {
+    max-width: 80%;
+    padding: 1.25rem;
+  }
+}
+
+/* Larger Screens */
+@media (min-width: 1024px) {
+  .reflection-consent,
+  .preferences-form {
+    max-width: 600px;
+  }
+}
