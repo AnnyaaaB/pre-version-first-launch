@@ -115,7 +115,7 @@ useEffect(() => {
   }, [API_BASE]);
 
     useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 4000); // show splash 4s
+    const timer = setTimeout(() => setLoading(false), 4000); // showing splash 4s
     return () => clearTimeout(timer);
   }, []);
 
@@ -133,14 +133,15 @@ useEffect(() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           history: newHistory,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone // 👈 send user timezone
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone //  sending user timezone
         }),
       });
 
+    // Rate limiting frontend check
       const data = await response.json();
       const aiReply = {
         role: "assistant",
-        content: data.reply || "No response from Autumn.",
+        content: data.reply || "Sorry, I can’t reply right now, let’s talk a bit later 🥺😔",
       };
 
       setChatHistory((prev) => [...prev, aiReply]);
