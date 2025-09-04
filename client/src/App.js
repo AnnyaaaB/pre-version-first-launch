@@ -612,8 +612,8 @@ useEffect(() => {
 
       {/* Signature Line */}
       <div className="cozy-signature">
-       <p>✦ RESA <strong>(Read · Eat · Sing · Associate)</strong> — a cozy rhythm of the heart.  
-Let’s treasure these moments together ♡ ~ With love, AntrAI 🤎🍂🧺🦦</p>
+       <p>✦ RESA <strong>(Read · Eat · Sing · Associate)</strong> — a little rhythm of joy.  
+Let’s cherish these moments together ♡ ~ With love, AntrAI ( ˊᵕˋ )♡.°⑅🤎🍂🧺🦦</p>
 
       </div>
     </div>
@@ -654,7 +654,7 @@ Let’s treasure these moments together ♡ ~ With love, AntrAI 🤎🍂🧺🦦
 
         sendPreferences({ likes, goals, avoid, dislikes });
         e.target.reset();
-        alert("✨ Autumn remembers this!");
+        alert("✨Thanks 🍰, I'll remembers this (˶ᵔ ᵕ ᵔ˶)");
 
 setShowReflectionConsent(false);
 setWantsReflections(false);
@@ -741,19 +741,31 @@ setWantsReflections(false);
         ))}
       </div>
 
-     {/* Input area (sticks to bottom) */}
-      <div className="chat-input">
-        <textarea
-          rows="2"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Talk to Autumn..."
-          disabled={loading}
-        />
-        <button onClick={sendMessage} disabled={loading}>
-          {loading ? "I'm thinking..." : "Send"}
-        </button>
-        </div>
+  {/* Input area (sticks to bottom) */}
+<div className="chat-input">
+  <textarea
+    rows="2"
+    value={message}
+    onChange={(e) => setMessage(e.target.value)}
+    placeholder="Talk to Autumn..."
+    disabled={loading}
+    aria-label="Type your message to Autumn"
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }}
+  />
+  <button 
+    onClick={sendMessage} 
+    disabled={loading}
+    aria-label="Send message"
+  >
+    {loading ? "I'm thinking..." : "Send"}
+  </button>
+</div>
+
     </div>
   </div>
 )}

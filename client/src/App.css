@@ -1581,3 +1581,56 @@ li {
     max-width: 600px;
   }
 }
+
+/* ---------------- Accessibility Enhancements ---------------- */
+
+/* Ensure focus is always visible */
+:focus {
+  outline: 3px solid #a66e59;   /* autumn orange outline */
+  outline-offset: 3px;
+}
+
+/* High-contrast button focus */
+button:focus,
+.feedback-button:focus,
+.admin-link:focus {
+  outline: 3px solid #3a2312;   /* dark earthy brown */
+  outline-offset: 3px;
+}
+
+/* Allow Enter key usage in textareas (UX hint for JS hookup) */
+textarea {
+  ime-mode: active; /* better for input methods */
+}
+textarea:focus {
+  border-color: #3a2312;
+  box-shadow: 0 0 6px rgba(58, 35, 18, 0.4);
+}
+
+/* Hide purely decorative elements from screen readers */
+[aria-hidden="true"] {
+  display: inline-block;
+}
+
+/* Larger tap targets on mobile */
+button,
+.feedback-button,
+.admin-link {
+  min-height: 44px; /* WCAG recommended */
+  min-width: 44px;
+}
+
+/* Extra contrast for important text */
+strong {
+  color: #3a2312;
+  font-weight: 700;
+}
+
+/* Smooth transitions for users with no motion sensitivity */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
