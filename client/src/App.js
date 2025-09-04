@@ -256,7 +256,7 @@ useEffect(() => {
   onClick={() =>
     openModal(
       <div className="modal-section saved-chats">
-        <h2>💾 Saved Chats</h2>
+        <h2>🖇️ Saved Chats</h2>
         {chatHistory.length === 0 ? (
           <p>No chats yet. Start talking with Autumn 🌿</p>
         ) : (
@@ -661,11 +661,11 @@ setWantsReflections(false);
 
       }}
     >
-      <input type="text" name="likes" placeholder="I like..." />
-      <input type="text" name="dislikes" placeholder="I dislike..." />
-      <input type="text" name="goals" placeholder="My goal is..." />
-      <input type="text" name="avoid" placeholder="I want to avoid..." />
-      <button type="submit">Save 🦋</button>
+      <input type="text" name="likes" placeholder="Your likes..." />
+      <input type="text" name="dislikes" placeholder="Your dislikes..." />
+      <input type="text" name="goals" placeholder="Your goals..." />
+      <input type="text" name="avoid" placeholder="Things you want to avoid..." />
+      <button type="submit">Save 💾🤍☁︎🫧✨</button>
     </form>
   </div>
 )}
