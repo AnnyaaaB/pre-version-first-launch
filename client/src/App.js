@@ -141,7 +141,7 @@ useEffect(() => {
       const data = await response.json();
       const aiReply = {
         role: "assistant",
-        content: data.reply || "Sorry, I can’t reply right now, let’s talk a bit later 🥺😔",
+       content: data.reply || "Sorry, I can’t reply right now 🥺😔. In the meantime, why not explore other sections ☺️",
       };
 
       setChatHistory((prev) => [...prev, aiReply]);
