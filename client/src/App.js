@@ -643,7 +643,7 @@ Let’s treasure these moments together ♡ ~ With love, AntrAI 🤎🍂🧺🦦
 {/* Preferences Form */}
 {wantsReflections && (
   <div className="preferences-form">
-    <h3>⋆.˚✮🎧✮˚.⋆ Help me get a glimpse of you</h3>
+    <h3>⛇☃︎ Help me get a glimpse of you ᥫ᭡🌷֒</h3>
     <form
       onSubmit={(e) => {
         e.preventDefault();
