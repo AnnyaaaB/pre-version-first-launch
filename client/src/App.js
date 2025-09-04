@@ -31,7 +31,7 @@ function App() {
 
   const API_BASE = window.location.origin;
 
-  // NEW: fetch daily reflection
+  // NEW: fetch daily reflection 
   const fetchReflection = async () => {
     try {
       const res = await fetch(`${API_BASE}/reflection/${userId}`);
@@ -87,7 +87,7 @@ useEffect(() => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Pick wallpaper based on time
+  // Pickin' wallpaper based on time
   useEffect(() => {
     const hour = new Date().getHours();
     if (hour >= 6 && hour < 12) {
