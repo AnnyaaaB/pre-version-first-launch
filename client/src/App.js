@@ -11,6 +11,8 @@ import morningWall from "./assets/wall_morning.png";
 import afternoonWall from "./assets/wall_afternoon.png";
 import nightWall from "./assets/wall_night.png";
 
+
+
 function App() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -24,9 +26,7 @@ function App() {
   const [wantsReflections, setWantsReflections] = useState(false);
   const [userId] = useState("demoUser123"); // replace with real user later
   const [showReflectionConsent, setShowReflectionConsent] = useState(true);
-
-
- 
+  
 
 
   const API_BASE = window.location.origin;
@@ -118,6 +118,7 @@ useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 4000); // showing splash 4s
     return () => clearTimeout(timer);
   }, []);
+
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -770,7 +771,6 @@ setWantsReflections(false);
     </div>
   </div>
 )}
-
 
        {/* our Footer */}
       <footer className="footer">
