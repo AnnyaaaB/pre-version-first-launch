@@ -1636,4 +1636,53 @@ strong {
 }
 
 
+/* ----------------- Cozy: safer higher defaults ----------------- */
+:root{
+  --cozy-base-bottom: clamp(70px, 8vh, 130px); /* default spacing above bottom UI */
+  --cozy-margin: 12px; /* gap between Becky and cozy elements */
+}
 
+/* Collapsed Cozy Gift button (higher by default) */
+.cozy-gift {
+  position: fixed;
+  right: 5vw;
+  bottom: calc(var(--cozy-base-bottom) + env(safe-area-inset-bottom));
+  width: clamp(48px, 6vw, 70px);
+  height: clamp(48px, 6vw, 70px);
+  z-index: 1200;
+  transition: bottom 200ms ease, transform 160ms ease;
+}
+
+/* Cozy modal (expanded) placed slightly above the gift */
+.cozy-modal {
+  position: fixed;
+  right: 5vw;
+  bottom: calc(var(--cozy-base-bottom) + 10px + env(safe-area-inset-bottom));
+  width: 90%;
+  max-width: 420px;
+  max-height: 70vh;
+  z-index: 1300;
+  transition: bottom 200ms ease;
+}
+
+/* Slightly higher on very short viewports (phones) */
+@media (max-height: 640px) {
+  :root { --cozy-base-bottom: clamp(90px, 12vh, 170px); }
+}
+
+/* Desktop & large tablets: keep it comfortable but not too high */
+@media (min-width: 1024px) {
+  :root { --cozy-base-bottom: clamp(60px, 6vh, 110px); }
+}
+
+/* Make sure the modal close button always sits above the cozy */
+.cozy-modal .close-btn {
+  z-index: 1400;
+}
+
+/* Keep cozy-ideas content centered but allow extra top padding so internal content doesn't get clipped */
+.cozy-ideas {
+  margin-top: 12px;
+  padding-bottom: 18px;
+  box-sizing: border-box;
+}

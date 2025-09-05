@@ -107,6 +107,63 @@ useEffect(() => {
     };
   }, []);
 
+  // becky cozy adjustment script
+useEffect(() => {
+  let attempts = 0;
+  const maxAttempts = 25; // stop polling after ~12.5s
+  const selectors = [
+    '#bp-web-widget',
+    'div[id^="bp-web-widget"]',
+    '.bpw-widget',
+    '.bp-widget',
+    'iframe[src*="botpress"]'
+  ];
+
+  function adjustCozyToWidget() {
+    attempts++;
+    let widget = null;
+    for (const s of selectors) {
+      widget = document.querySelector(s);
+      if (widget) break;
+    }
+    if (!widget) {
+      if (attempts < maxAttempts) requestAnimationFrame(adjustCozyToWidget);
+      return;
+    }
+
+    // If the widget is an iframe, use the element's height; otherwise bounding rect
+    const rect = widget.getBoundingClientRect();
+    const widgetHeight = Math.round(rect.height) || 80;
+    const extraGap = 12; // gap in px between Becky and cozy elements
+
+    const cozyGift = document.querySelector('.cozy-gift');
+    const cozyModal = document.querySelector('.cozy-modal');
+
+    // We compute a new bottom value in pixels (widgetHeight from bottom) + margin
+    const newBottomForGift = widgetHeight + extraGap + (window.visualViewport ? Math.max(0, Math.round(window.visualViewport.height - document.documentElement.clientHeight)) : 0) + 8;
+
+    if (cozyGift) {
+      cozyGift.style.bottom = `${newBottomForGift}px`;
+      cozyGift.style.transition = 'bottom 180ms ease';
+    }
+    if (cozyModal) {
+      cozyModal.style.bottom = `${newBottomForGift + 12}px`;
+      cozyModal.style.transition = 'bottom 180ms ease';
+    }
+  }
+
+  // run once and also on resize / orientation
+  adjustCozyToWidget();
+  window.addEventListener('resize', adjustCozyToWidget);
+  window.addEventListener('orientationchange', adjustCozyToWidget);
+
+  return () => {
+    window.removeEventListener('resize', adjustCozyToWidget);
+    window.removeEventListener('orientationchange', adjustCozyToWidget);
+  };
+}, []);
+
+
   // Pickin' wallpaper based on time
   useEffect(() => {
     const hour = new Date().getHours();
