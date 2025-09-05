@@ -87,6 +87,26 @@ useEffect(() => {
     return () => clearTimeout(timer);
   }, []);
 
+// becky scripts 
+  useEffect(() => {
+    const script1 = document.createElement("script");
+    script1.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
+    script1.async = true;
+    document.body.appendChild(script1);
+
+    const script2 = document.createElement("script");
+    script2.src =
+      "https://files.bpcontent.cloud/2025/09/05/07/20250905075303-M5B8ETNI.js";
+    script2.defer = true;
+    document.body.appendChild(script2);
+
+    return () => {
+      // cleanup when component unmounts
+      document.body.removeChild(script1);
+      document.body.removeChild(script2);
+    };
+  }, []);
+
   // Pickin' wallpaper based on time
   useEffect(() => {
     const hour = new Date().getHours();
@@ -118,6 +138,11 @@ useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 4000); // showing splash 4s
     return () => clearTimeout(timer);
   }, []);
+
+
+
+
+
 
 
   const sendMessage = async () => {
