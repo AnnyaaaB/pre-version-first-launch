@@ -263,7 +263,7 @@ useEffect(() => {
         <div className="welcome-overlay">
           <div className="welcome-box" onClick={() => setShowUserGuide(true)}>
             <p>
-             "Hiya, please click to discover how to navigate autumn’s workspace 🤗✨"
+             Hiya, please click to discover how to navigate autumn’s workspace 🤗✨
             </p>
           </div>
         </div>
@@ -278,9 +278,9 @@ useEffect(() => {
             <ul>
               <li>📂 Use the sidebar to explore Saved Chats, Mission, Team, and more.</li>
               <li>💬 Chat with Autumn in the chat box. Expand for full view.</li>
-              <li>💌 Click the floating gift box 🐻‍❄️ for cozy features.</li>
-              <li>🧚 Explore the glimpses of what you can do with the “Start Your Journey” section.</li>
-              <li>🐰 Use Connect/Join to engage with our community.</li>
+              <li>💌 Click the floating 🐻‍❄️ྀིྀ box for cozy features.</li>
+              <li>🧚 Discover little glimpses of magic with Autumn in the “Start Your Journey” section ✨</li>
+              <li>🐰 Use Join Us/Waitlist to engage with our community.</li>
             </ul>
             <p>You’re always welcome here, autumn’s world is brighter with you ᢉ𐭩</p>
             <button
