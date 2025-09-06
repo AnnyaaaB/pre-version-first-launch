@@ -87,82 +87,6 @@ useEffect(() => {
     return () => clearTimeout(timer);
   }, []);
 
-// becky scripts 
-  useEffect(() => {
-    const script1 = document.createElement("script");
-    script1.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
-    script1.async = true;
-    document.body.appendChild(script1);
-
-    const script2 = document.createElement("script");
-    script2.src =
-      "https://files.bpcontent.cloud/2025/09/05/07/20250905075303-M5B8ETNI.js";
-    script2.defer = true;
-    document.body.appendChild(script2);
-
-    return () => {
-      // cleanup when component unmounts
-      document.body.removeChild(script1);
-      document.body.removeChild(script2);
-    };
-  }, []);
-
-  // becky cozy adjustment script
-useEffect(() => {
-  let attempts = 0;
-  const maxAttempts = 25; // stop polling after ~12.5s
-  const selectors = [
-    '#bp-web-widget',
-    'div[id^="bp-web-widget"]',
-    '.bpw-widget',
-    '.bp-widget',
-    'iframe[src*="botpress"]'
-  ];
-
-  function adjustCozyToWidget() {
-    attempts++;
-    let widget = null;
-    for (const s of selectors) {
-      widget = document.querySelector(s);
-      if (widget) break;
-    }
-    if (!widget) {
-      if (attempts < maxAttempts) requestAnimationFrame(adjustCozyToWidget);
-      return;
-    }
-
-    // If the widget is an iframe, use the element's height; otherwise bounding rect
-    const rect = widget.getBoundingClientRect();
-    const widgetHeight = Math.round(rect.height) || 80;
-    const extraGap = 12; // gap in px between Becky and cozy elements
-
-    const cozyGift = document.querySelector('.cozy-gift');
-    const cozyModal = document.querySelector('.cozy-modal');
-
-    // We compute a new bottom value in pixels (widgetHeight from bottom) + margin
-    const newBottomForGift = widgetHeight + extraGap + (window.visualViewport ? Math.max(0, Math.round(window.visualViewport.height - document.documentElement.clientHeight)) : 0) + 8;
-
-    if (cozyGift) {
-      cozyGift.style.bottom = `${newBottomForGift}px`;
-      cozyGift.style.transition = 'bottom 180ms ease';
-    }
-    if (cozyModal) {
-      cozyModal.style.bottom = `${newBottomForGift + 12}px`;
-      cozyModal.style.transition = 'bottom 180ms ease';
-    }
-  }
-
-  // run once and also on resize / orientation
-  adjustCozyToWidget();
-  window.addEventListener('resize', adjustCozyToWidget);
-  window.addEventListener('orientationchange', adjustCozyToWidget);
-
-  return () => {
-    window.removeEventListener('resize', adjustCozyToWidget);
-    window.removeEventListener('orientationchange', adjustCozyToWidget);
-  };
-}, []);
-
 
   // Pickin' wallpaper based on time
   useEffect(() => {
@@ -199,9 +123,6 @@ useEffect(() => {
 
 
 
-
-
-
   const sendMessage = async () => {
     if (!message.trim()) return;
 
@@ -224,7 +145,7 @@ useEffect(() => {
       const data = await response.json();
       const aiReply = {
         role: "assistant",
-       content: data.reply || "Sorry, I can’t reply right now. I'm on a short vacay 🥺😔. In the meantime, why not explore other sections or learn more about me and my workspace from Becky ☺️",
+       content: data.reply || "Sorry, I can’t reply right now. I'm on a short vacay 🥺😔. In the meantime, why not explore other sections ☺️",
       };
 
       setChatHistory((prev) => [...prev, aiReply]);
@@ -697,7 +618,7 @@ useEffect(() => {
       {/* Signature Line */}
       <div className="cozy-signature">
        <p>✦ RESA <strong>(Read · Eat · Sing · Associate)</strong> — a little rhythm of joy.  
-Let’s cherish these moments together ♡ ~ With love, AntrAI ( ˊᵕˋ )♡.°⑅🤎🍂🧺🦦</p>
+Let’s cherish these moments together ♡ ~ With love, AntrAI ( ˊᵕˋ )🤎🍂🧺🦦</p>
 
       </div>
     </div>
