@@ -738,7 +738,7 @@ Let’s cherish these moments together ♡ ~ With love, AntrAI ( ˊᵕˋ )♡.°
 
         sendPreferences({ likes, goals, avoid, dislikes });
         e.target.reset();
-        alert("✨Thanks 🍰, I'll remembers this (˶ᵔ ᵕ ᵔ˶)");
+        alert("✨Thanks 🍰, I'll remembers this 🥰");
 
 setShowReflectionConsent(false);
 setWantsReflections(false);
