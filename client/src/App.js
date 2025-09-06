@@ -26,7 +26,11 @@ function App() {
   const [wantsReflections, setWantsReflections] = useState(false);
   const [userId] = useState("demoUser123"); // replace with real user later
   const [showReflectionConsent, setShowReflectionConsent] = useState(true);
+
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [showUserGuide, setShowUserGuide] = useState(false);
   
+
 
 
   const API_BASE = window.location.origin;
@@ -209,6 +213,8 @@ useEffect(() => {
     }
   };
 
+ 
+
   // Check immediately on load
   checkReflection();
 
@@ -222,6 +228,17 @@ useEffect(() => {
     setModalContent(content);
     setMenuOpen(false);
   };
+
+  // Run once when splash ends
+  useEffect(() => {
+    if (!showSplash) {
+      const alreadyVisited = localStorage.getItem("visitedAutumnWorkspace");
+      if (!alreadyVisited) {
+        setShowWelcome(true);
+      }
+    }
+  }, [showSplash]);
+
 
   return (
     <div
@@ -240,6 +257,46 @@ useEffect(() => {
           <div className="splash-text">loading...</div>
         </div>
       )}
+
+{/* Welcome Overlay */}
+      {showWelcome && !showUserGuide && (
+        <div className="welcome-overlay">
+          <div className="welcome-box" onClick={() => setShowUserGuide(true)}>
+            <p>
+             "Hiya, please click to discover how to navigate autumn’s workspace 🤗✨"
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* User Guide Modal */}
+      {showUserGuide && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>◝(ᵔᵕᵔ)◜ Welcome to Autumn’s Workspace</h2>
+            <p>Here’s how you can make the most of it:</p>
+            <ul>
+              <li>📂 Use the sidebar to explore Saved Chats, Mission, Team, and more.</li>
+              <li>💬 Chat with Autumn in the chat box. Expand for full view.</li>
+              <li>💌 Click the floating gift box 🐻‍❄️ for cozy features.</li>
+              <li>🧚 Explore the glimpses of what you can do with the “Start Your Journey” section.</li>
+              <li>🐰 Use Connect/Join to engage with our community.</li>
+            </ul>
+            <p>You’re always welcome here, autumn’s world is brighter with you ᢉ𐭩</p>
+            <button
+              className="close-btn"
+              onClick={() => {
+                setShowUserGuide(false);
+                setShowWelcome(false);
+                localStorage.setItem("visitedAutumnWorkspace", "true"); // savee that user has visited
+              }}
+            >
+              Close ✖
+            </button>
+          </div>
+        </div>
+      )}
+
 
       <div className="App">
         {/* your app content here */}

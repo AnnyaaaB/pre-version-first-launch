@@ -1686,3 +1686,134 @@ strong {
   padding-bottom: 18px;
   box-sizing: border-box;
 }
+
+
+/* user guide */
+
+.welcome-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85); /* translucent white backdrop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem; /* ensures spacing on tiny devices */
+  box-sizing: border-box;
+}
+
+.welcome-box {
+  background: #fffaf5;
+  padding: 2rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+  font-size: 1.2rem;
+  text-align: center;
+  cursor: pointer;
+  color: #222; 
+  font-weight: 500;
+  max-width: 500px;
+  width: 100%; /* full width on small screens */
+  line-height: 1.6;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+.welcome-box:hover {
+  transform: scale(1.05);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2100;
+  padding: 1rem; /* padding for mobile */
+  box-sizing: border-box;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 100%; /* adapt to mobile */
+  max-width: 600px;
+  text-align: left;
+  color: #000;
+  animation: fadeIn 0.3s ease;
+  box-sizing: border-box;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  margin-top: 1rem;
+  background: #ff6961;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.close-btn:hover {
+  background: #ff4c4c;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Small Devices (Mobile) */
+@media (max-width: 480px) {
+  .welcome-box {
+    padding: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .modal-content {
+    padding: 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .modal-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .close-btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Tablets (portrait & landscape) */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .welcome-box {
+    padding: 1.5rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .modal-content h2 {
+    font-size: 1.4rem;
+  }
+}
