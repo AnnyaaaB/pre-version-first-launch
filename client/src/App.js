@@ -675,7 +675,7 @@ useEffect(() => {
       {/* Signature Line */}
       <div className="cozy-signature">
        <p>✦ RESA <strong>(Read · Eat · Sing · Associate)</strong> — a little rhythm of joy.  
-Let’s cherish these moments together ♡ ~ With love, AntrAI ( ˊᵕˋ )🤎🍂🧺🦦</p>
+Let’s cherish these moments together ~ With love, AntrAI 🤎🍂🧺🦦</p>
 
       </div>
     </div>
